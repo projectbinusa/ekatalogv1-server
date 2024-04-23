@@ -1,48 +1,19 @@
-package com.example.atmdemosewaRuang.model;
+package com.example.atmdemosewaRuang.dto;
 
-import javax.persistence.*;
+import com.example.atmdemosewaRuang.model.DataRuangModel;
+import com.example.atmdemosewaRuang.model.PelangganModel;
+import com.example.atmdemosewaRuang.model.TambahMenuModel;
 
-@Entity
-@Table(name = "data_booking_tempat")
-public class DataPeminjamanTempatModel {
+public class DataPeminjamanTempatDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "jumlah_orang")
     private String jumlah_orang;
-
-    @Column(name = "tanggal")
     private String tanggal;
-
-    @Column(name = "jam_awal")
     private String jam_awal;
-
-    @Column(name = "jam_akhir")
     private String jam_akhir;
-
-    @Column(name = "keterangan")
     private String keterangan;
-
-    @ManyToOne
-    @JoinColumn(name = "nama_pelanggan_id")
     private PelangganModel pelangganModel;
-
-    @ManyToOne
-    @JoinColumn(name = "nama_item_id")
     private TambahMenuModel tambahMenuModel;
-
-    @ManyToOne
-    @JoinColumn(name = "tempat_id")
     private DataRuangModel dataRuangModel;
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getJumlah_orang() {
         return jumlah_orang;
