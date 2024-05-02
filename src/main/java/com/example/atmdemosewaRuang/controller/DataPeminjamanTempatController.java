@@ -1,8 +1,6 @@
 package com.example.atmdemosewaRuang.controller;
 
 import com.example.atmdemosewaRuang.model.DataPeminjamanTempatModel;
-import com.example.atmdemosewaRuang.model.PelangganModel;
-import com.example.atmdemosewaRuang.model.TambahMenuModel;
 import com.example.atmdemosewaRuang.service.DataPeminjamanTempatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,36 +21,56 @@ public class DataPeminjamanTempatController {
     // GetAllData
     @GetMapping("/all")
     public ResponseEntity<List<DataPeminjamanTempatModel>> getAllData() {
-        List<DataPeminjamanTempatModel> dataPeminjamanTempatModels = dataPeminjamanTempatService.getAllData();
-        return new ResponseEntity<>(dataPeminjamanTempatModels, HttpStatus.OK);
+        try {
+            List<DataPeminjamanTempatModel> dataPeminjamanTempatModels = dataPeminjamanTempatService.getAllData();
+            return new ResponseEntity<>(dataPeminjamanTempatModels, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // GetById
     @GetMapping("/peminjaman_tempat/{id}")
     public ResponseEntity<DataPeminjamanTempatModel> getById(@PathVariable Long id) {
-        Optional<DataPeminjamanTempatModel> dataPeminjamanTempatModels = dataPeminjamanTempatService.getById(id);
-        return dataPeminjamanTempatModels.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            Optional<DataPeminjamanTempatModel> dataPeminjamanTempatModels = dataPeminjamanTempatService.getById(id);
+            return dataPeminjamanTempatModels.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // Add data
     @PostMapping("/add")
     public ResponseEntity<DataPeminjamanTempatModel> createData(@RequestBody DataPeminjamanTempatModel dataPeminjamanTempatModel) {
-        DataPeminjamanTempatModel newData = dataPeminjamanTempatService.createData(dataPeminjamanTempatModel);
-        return new ResponseEntity<>(newData, HttpStatus.OK);
+        try {
+            DataPeminjamanTempatModel newData = dataPeminjamanTempatService.createData(dataPeminjamanTempatModel);
+            return new ResponseEntity<>(newData, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // Update data
     @PutMapping("/{id}")
     public ResponseEntity<DataPeminjamanTempatModel> updateData(@PathVariable Long id, @RequestBody DataPeminjamanTempatModel ubahTempatPeminjaman) {
-        DataPeminjamanTempatModel putTempatPeminjaman = dataPeminjamanTempatService.updateData(id, ubahTempatPeminjaman);
-        return new ResponseEntity<>(putTempatPeminjaman, HttpStatus.OK);
+        try {
+            DataPeminjamanTempatModel putTempatPeminjaman = dataPeminjamanTempatService.updateData(id, ubahTempatPeminjaman);
+            return new ResponseEntity<>(putTempatPeminjaman, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // Delete
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteData(@PathVariable Long id) {
-        dataPeminjamanTempatService.deleteDataPeminjamanTempat (id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            dataPeminjamanTempatService.deleteDataPeminjamanTempat(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

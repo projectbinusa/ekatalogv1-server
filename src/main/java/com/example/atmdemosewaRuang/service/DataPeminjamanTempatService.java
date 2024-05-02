@@ -1,7 +1,6 @@
 package com.example.atmdemosewaRuang.service;
 
-import com.example.atmdemosewaRuang.model.DataPeminjamanTempatModel;
-import com.example.atmdemosewaRuang.model.PelangganModel;
+import com.example.atmdemosewaRuang.model.*;
 import com.example.atmdemosewaRuang.repository.DataPeminjamanTempatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
