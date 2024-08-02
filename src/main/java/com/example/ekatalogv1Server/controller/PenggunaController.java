@@ -62,6 +62,7 @@ public class PenggunaController {
         }
     }
 
+    // Endpoint untuk register
 //    @PostMapping("/register")
 //    public ResponseEntity<?> addPengguna(@RequestBody PenggunaDTO penggunaDTO) {
 //        try {
