@@ -13,6 +13,9 @@ public class Pengguna extends DateConfig {
     @Column(name = "id_pengguna")
     private Long IdPengguna;
 
+    @Column(name = "del_flag", nullable = false, columnDefinition = "int default 1")
+    private int delFlag;
+
     @Column(name = "nama_pengguna", nullable = false, length = 255)
     private String namaPengguna;
 
@@ -33,6 +36,14 @@ public class Pengguna extends DateConfig {
 
     public void setIdPengguna(Long idPengguna) {
         IdPengguna = idPengguna;
+    }
+
+    public int getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(int delFlag) {
+        this.delFlag = delFlag;
     }
 
     public String getNamaPengguna() {

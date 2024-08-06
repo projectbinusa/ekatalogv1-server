@@ -45,7 +45,6 @@ public class UserDetailService implements UserDetailsService {
         }
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String usernamePengguna) throws UsernameNotFoundException {
         Optional<Pengguna> optionalUser = userDao.findByUsername(usernamePengguna);
