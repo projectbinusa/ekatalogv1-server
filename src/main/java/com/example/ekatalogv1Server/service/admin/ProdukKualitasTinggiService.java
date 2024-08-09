@@ -35,7 +35,7 @@ public class ProdukKualitasTinggiService {
         produkKualitasTinggi.setStatus(produkKualitasTinggiDTO.getStatus());
         produkKualitasTinggi.setLayanan(produkKualitasTinggiDTO.getLayanan());
         produkKualitasTinggi.setJenisProyek(produkKualitasTinggiDTO.getJenisProyek());
-        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(produkKualitasTinggiDTO.getKategoriProdukId())
+        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(produkKualitasTinggiDTO.getId_kategori_produk())
                 .orElseThrow(() -> new RuntimeException("Kategori Produk not found"));
         produkKualitasTinggi.setKategoriProduk(kategoriProduk);
         produkKualitasTinggi.setDelFlag(produkKualitasTinggiDTO.getDelFlag());
@@ -52,7 +52,7 @@ public class ProdukKualitasTinggiService {
         produkKualitasTinggi.setStatus(produkKualitasTinggiDTO.getStatus());
         produkKualitasTinggi.setLayanan(produkKualitasTinggiDTO.getLayanan());
         produkKualitasTinggi.setJenisProyek(produkKualitasTinggiDTO.getJenisProyek());
-        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(produkKualitasTinggiDTO.getKategoriProdukId())
+        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(produkKualitasTinggiDTO.getId_kategori_produk())
                 .orElseThrow(() -> new RuntimeException("Kategori Produk not found"));
         produkKualitasTinggi.setKategoriProduk(kategoriProduk);
         produkKualitasTinggi.setDelFlag(produkKualitasTinggiDTO.getDelFlag());
