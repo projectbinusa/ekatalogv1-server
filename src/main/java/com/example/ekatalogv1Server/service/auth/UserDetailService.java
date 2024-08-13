@@ -1,6 +1,7 @@
 package com.example.ekatalogv1Server.service.auth;
 
 import com.example.ekatalogv1Server.dto.PenggunaDTO;
+import com.example.ekatalogv1Server.dto.PenggunaUbahDTO;
 import com.example.ekatalogv1Server.model.Pengguna;
 import com.example.ekatalogv1Server.repository.PenggunaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserDetailService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     public Pengguna save(PenggunaDTO user) {
         try {
@@ -54,6 +58,25 @@ public class UserDetailService implements UserDetailsService {
             return new User(usernamePengguna, user.getPasswordPengguna(), roles);
         } else {
             throw new UsernameNotFoundException("User not found with username: " + usernamePengguna);
+        }
+    }
+
+    public Pengguna put(PenggunaUbahDTO penggunaUbahDTO, Long id) {
+        Pengguna pengguna = userDao.findById(id).orElseThrow(() -> new RuntimeException("pengguna not found"));
+        pengguna.setNamaPengguna(penggunaUbahDTO.getNama());
+        if (penggunaUbahDTO.getPassword() != null && !penggunaUbahDTO.getPassword().isEmpty()) {
+            String encodedPassword = encoder.encode(penggunaUbahDTO.getPassword());
+            pengguna.setPasswordPengguna(encodedPassword);
+        }
+
+        return userDao.save(pengguna);
+    }
+
+    public void delete(Long id) {
+        if (userDao.existsById(id)) {
+            userDao.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("id = " + id + " tidak ditemukan");
         }
     }
 }

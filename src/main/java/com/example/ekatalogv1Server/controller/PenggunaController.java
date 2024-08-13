@@ -3,10 +3,13 @@ package com.example.ekatalogv1Server.controller;
 import com.example.ekatalogv1Server.config.JwtTokenUtil;
 import com.example.ekatalogv1Server.dto.JwtRequest;
 import com.example.ekatalogv1Server.dto.JwtResponse;
+import com.example.ekatalogv1Server.dto.PenggunaDTO;
+import com.example.ekatalogv1Server.dto.PenggunaUbahDTO;
 import com.example.ekatalogv1Server.model.Pengguna;
 import com.example.ekatalogv1Server.repository.PenggunaRepository;
 import com.example.ekatalogv1Server.service.auth.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,5 +60,17 @@ public class PenggunaController {
         } catch (AuthenticationException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Pengguna> update(@RequestBody PenggunaUbahDTO penggunaUbahDTO, @PathVariable Long id) {
+        Pengguna update = userDetailService.put(penggunaUbahDTO, id);
+        return ResponseEntity.ok(update);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userDetailService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
