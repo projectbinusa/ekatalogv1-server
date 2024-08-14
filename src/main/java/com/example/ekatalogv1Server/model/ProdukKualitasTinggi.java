@@ -1,8 +1,10 @@
 package com.example.ekatalogv1Server.model;
 
 import com.example.ekatalogv1Server.auditing.DateConfig;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "produk_kualitas_tinggi")
@@ -26,6 +28,11 @@ public class ProdukKualitasTinggi extends DateConfig {
 
     @Column(name = "layanan", nullable = false, length = 255)
     private String layanan;
+
+    @Column(name = "tanggal", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "Asia/Jakarta")
+    private Date tanggal;
 
     @Column(name = "jenis_proyek", nullable = false, length = 255)
     private String jenisProyek;
@@ -80,6 +87,14 @@ public class ProdukKualitasTinggi extends DateConfig {
 
     public void setLayanan(String layanan) {
         this.layanan = layanan;
+    }
+
+    public Date getTanggal() {
+        return tanggal;
+    }
+
+    public void setTanggal(Date tanggal) {
+        this.tanggal = tanggal;
     }
 
     public String getJenisProyek() {

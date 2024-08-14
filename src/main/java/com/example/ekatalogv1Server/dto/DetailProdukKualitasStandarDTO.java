@@ -1,10 +1,13 @@
 package com.example.ekatalogv1Server.dto;
 
+import java.util.Date;
+
 public class DetailProdukKualitasStandarDTO {
 
     private int delFlag;
     private Double hargaProduk;
     private String deskripsi;
+    private Date tanggal;
     private int stokProduk;
     private Long id_produk_kualitas_standar;
     private Long Id_kategori_produk;
@@ -31,6 +34,14 @@ public class DetailProdukKualitasStandarDTO {
 
     public void setDeskripsi(String deskripsi) {
         this.deskripsi = deskripsi;
+    }
+
+    public Date getTanggal() {
+        return tanggal;
+    }
+
+    public void setTanggal(Date tanggal) {
+        this.tanggal = tanggal;
     }
 
     public int getStokProduk() {

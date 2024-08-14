@@ -55,6 +55,7 @@ public class DetailProdukService {
         detailProdukKualitasStandar.setHargaProduk(detailProdukKualitasStandarDTO.getHargaProduk());
         detailProdukKualitasStandar.setStokProduk(detailProdukKualitasStandarDTO.getStokProduk());
         detailProdukKualitasStandar.setDeskripsi(detailProdukKualitasStandarDTO.getDeskripsi());
+        detailProdukKualitasStandar.setTanggal(detailProdukKualitasStandarDTO.getTanggal());
         detailProdukKualitasStandar.setDelFlag(detailProdukKualitasStandarDTO.getDelFlag());
 
         return detailProdukKualitasStandarRepository.save(detailProdukKualitasStandar);
@@ -71,6 +72,7 @@ public class DetailProdukService {
         detailProdukKualitasTinggi.setHargaProduk(detailProdukKualitasTinggiDTO.getHargaProduk());
         detailProdukKualitasTinggi.setStokProduk(detailProdukKualitasTinggiDTO.getStokProduk());
         detailProdukKualitasTinggi.setDeskripsi(detailProdukKualitasTinggiDTO.getDeskripsi());
+        detailProdukKualitasTinggi.setTanggal(detailProdukKualitasTinggiDTO.getTanggal());
         detailProdukKualitasTinggi.setDelFlag(detailProdukKualitasTinggiDTO.getDelFlag());
 
         return detailProdukKualitasTinggiRepository.save(detailProdukKualitasTinggi);
@@ -89,6 +91,7 @@ public class DetailProdukService {
         detailProdukKualitasStandar.setHargaProduk(detailProdukKualitasStandarDTO.getHargaProduk());
         detailProdukKualitasStandar.setStokProduk(detailProdukKualitasStandarDTO.getStokProduk());
         detailProdukKualitasStandar.setDeskripsi(detailProdukKualitasStandarDTO.getDeskripsi());
+        detailProdukKualitasStandar.setTanggal(detailProdukKualitasStandarDTO.getTanggal());
         detailProdukKualitasStandar.setDelFlag(detailProdukKualitasStandarDTO.getDelFlag());
 
         return detailProdukKualitasStandarRepository.save(detailProdukKualitasStandar);
@@ -107,6 +110,7 @@ public class DetailProdukService {
         detailProdukKualitasTinggi.setHargaProduk(detailProdukKualitasTinggiDTO.getHargaProduk());
         detailProdukKualitasTinggi.setStokProduk(detailProdukKualitasTinggiDTO.getStokProduk());
         detailProdukKualitasTinggi.setDeskripsi(detailProdukKualitasTinggiDTO.getDeskripsi());
+        detailProdukKualitasTinggi.setTanggal(detailProdukKualitasTinggiDTO.getTanggal());
         detailProdukKualitasTinggi.setDelFlag(detailProdukKualitasTinggiDTO.getDelFlag());
 
         return detailProdukKualitasTinggiRepository.save(detailProdukKualitasTinggi);
