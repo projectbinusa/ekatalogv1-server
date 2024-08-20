@@ -1,13 +1,18 @@
 package com.example.ekatalogv1Server.controller;
 
 import com.example.ekatalogv1Server.dto.ProdukKualitasTinggiDTO;
+import com.example.ekatalogv1Server.exception.PaginationResponse;
 import com.example.ekatalogv1Server.model.ProdukKualitasTinggi;
 import com.example.ekatalogv1Server.service.admin.ProdukKualitasTinggiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -47,5 +52,28 @@ public class ProdukKualitasTinggiController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         produkKualitasTinggiService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(path = "/pagination")
+    public ResponseEntity<PaginationResponse<Page<ProdukKualitasTinggi>>> getAll(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ProdukKualitasTinggi> produkKualitasTinggis = produkKualitasTinggiService.getAll(pageable);
+
+        PaginationResponse<Page<ProdukKualitasTinggi>> response = new PaginationResponse<>();
+        response.setStatus("success");
+        response.setCode(HttpStatus.OK.value());
+        response.setData(produkKualitasTinggis);
+        response.setMessage("Data fetched successfully");
+        response.setPagination(Map.of(
+                "totalElements", produkKualitasTinggis.getTotalElements(),
+                "totalPages", produkKualitasTinggis.getTotalPages(),
+                "currentPage", produkKualitasTinggis.getNumber(),
+                "pageSize", produkKualitasTinggis.getSize()
+        ));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
