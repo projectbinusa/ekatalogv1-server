@@ -6,6 +6,8 @@ import com.example.ekatalogv1Server.model.ProdukKualitasTinggi;
 import com.example.ekatalogv1Server.repository.KategoriProdukRepository;
 import com.example.ekatalogv1Server.repository.ProdukKualitasTinggiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,5 +70,9 @@ public class ProdukKualitasTinggiService {
         } else {
             throw new IllegalArgumentException("ID = " + id + " tidak ditemukan");
         }
+    }
+
+    public Page<ProdukKualitasTinggi> getAll(Pageable pageable) {
+        return produkKualitasTinggiRepository.findAll(pageable);
     }
 }
