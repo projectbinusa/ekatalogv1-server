@@ -1,7 +1,9 @@
 package com.example.ekatalogv1Server.controller;
 
 import com.example.ekatalogv1Server.dto.ProdukKualitasTinggiDTO;
+import com.example.ekatalogv1Server.exception.CommonResponse;
 import com.example.ekatalogv1Server.exception.PaginationResponse;
+import com.example.ekatalogv1Server.exception.ResponseHelper;
 import com.example.ekatalogv1Server.model.ProdukKualitasTinggi;
 import com.example.ekatalogv1Server.service.admin.ProdukKualitasTinggiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,34 +26,28 @@ public class ProdukKualitasTinggiController {
     private ProdukKualitasTinggiService produkKualitasTinggiService;
 
     @GetMapping
-    public ResponseEntity<List<ProdukKualitasTinggi>> getAll() {
-        List<ProdukKualitasTinggi> produkKualitasTinggis = produkKualitasTinggiService.getAll();
-        return new ResponseEntity<>(produkKualitasTinggis, HttpStatus.OK);
+    public CommonResponse<List<ProdukKualitasTinggi>> getAll() {
+        return ResponseHelper.ok(produkKualitasTinggiService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProdukKualitasTinggi> getById(@PathVariable Long id) {
-        Optional<ProdukKualitasTinggi> produkKualitasTinggis = produkKualitasTinggiService.getById(id);
-        return produkKualitasTinggis.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public CommonResponse<ProdukKualitasTinggi> getById(@PathVariable("id") Long id) {
+        return ResponseHelper.ok(produkKualitasTinggiService.getById(id));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ProdukKualitasTinggi> add(@RequestBody ProdukKualitasTinggiDTO produkKualitasTinggiDTO) {
-        ProdukKualitasTinggi newData = produkKualitasTinggiService.add(produkKualitasTinggiDTO);
-        return new ResponseEntity<>(newData, HttpStatus.OK);
+    public CommonResponse<ProdukKualitasTinggi> add(@RequestBody ProdukKualitasTinggiDTO produkKualitasTinggiDTO) {
+        return ResponseHelper.ok(produkKualitasTinggiService.add(produkKualitasTinggiDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProdukKualitasTinggi> updateProduk(@RequestBody ProdukKualitasTinggiDTO produkKualitasTinggiDTO, @PathVariable Long id) {
-        ProdukKualitasTinggi updatedProduk = produkKualitasTinggiService.put(produkKualitasTinggiDTO, id);
-        return ResponseEntity.ok(updatedProduk);
+    public CommonResponse<ProdukKualitasTinggi> put(@PathVariable("id") Long id , @RequestBody ProdukKualitasTinggiDTO produkKualitasTinggiDTO) {
+        return ResponseHelper.ok(produkKualitasTinggiService.put(produkKualitasTinggiDTO , id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        produkKualitasTinggiService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public CommonResponse<?> delete(@PathVariable("id") Long id) {
+        return ResponseHelper.ok(produkKualitasTinggiService.delete(id));
     }
 
     @GetMapping(path = "/pagination")

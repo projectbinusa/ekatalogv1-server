@@ -10,7 +10,8 @@ public class ProdukKualitasStandarDTO {
     private String layanan;
     private Date tanggal;
     private String jenisProyek;
-    private Long Id_kategori_produk;
+    private Long idDetailProdukStandar;
+    private Long idKategoriProduk;
     private int delFlag;
 
     public String getNamaProduk() {
@@ -61,12 +62,20 @@ public class ProdukKualitasStandarDTO {
         this.jenisProyek = jenisProyek;
     }
 
-    public Long getId_kategori_produk() {
-        return Id_kategori_produk;
+    public Long getIdDetailProdukStandar() {
+        return idDetailProdukStandar;
     }
 
-    public void setId_kategori_produk(Long id_kategori_produk) {
-        Id_kategori_produk = id_kategori_produk;
+    public void setIdDetailProdukStandar(Long idDetailProdukStandar) {
+        this.idDetailProdukStandar = idDetailProdukStandar;
+    }
+
+    public Long getIdKategoriProduk() {
+        return idKategoriProduk;
+    }
+
+    public void setIdKategoriProduk(Long idKategoriProduk) {
+        this.idKategoriProduk = idKategoriProduk;
     }
 
     public int getDelFlag() {

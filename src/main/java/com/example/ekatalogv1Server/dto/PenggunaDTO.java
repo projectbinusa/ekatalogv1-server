@@ -5,6 +5,7 @@ public class PenggunaDTO {
     private String passwordPengguna;
     private String rolePengguna;
     private String usernamePengguna;
+    private int delFlag;
 
     // Getter Setter
 
@@ -38,5 +39,13 @@ public class PenggunaDTO {
 
     public void setUsernamePengguna(String usernamePengguna) {
         this.usernamePengguna = usernamePengguna;
+    }
+
+    public int getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(int delFlag) {
+        this.delFlag = delFlag;
     }
 }

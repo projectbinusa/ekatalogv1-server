@@ -1,8 +1,11 @@
 package com.example.ekatalogv1Server.service.admin;
 
 import com.example.ekatalogv1Server.dto.ProdukKualitasStandarDTO;
+import com.example.ekatalogv1Server.exception.NotFoundException;
+import com.example.ekatalogv1Server.model.DetailProdukKualitasStandar;
 import com.example.ekatalogv1Server.model.KategoriProduk;
 import com.example.ekatalogv1Server.model.ProdukKualitasStandar;
+import com.example.ekatalogv1Server.repository.DetailProdukKualitasStandarRepository;
 import com.example.ekatalogv1Server.repository.KategoriProdukRepository;
 import com.example.ekatalogv1Server.repository.ProdukKualitasStandarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +25,15 @@ public class ProdukKualitasStandarService {
     @Autowired
     private KategoriProdukRepository kategoriProdukRepository;
 
+    @Autowired
+    private DetailProdukKualitasStandarRepository detailProdukKualitasStandarRepository;
+
     public List<ProdukKualitasStandar> getAll() {
         return produkKualitasStandarRepository.findAll();
     }
 
-    public Optional <ProdukKualitasStandar> getById(Long id) {
-        return produkKualitasStandarRepository.findById(id);
+    public ProdukKualitasStandar getById(Long id) {
+        return produkKualitasStandarRepository.findById(id).orElseThrow(() -> new NotFoundException("Id tidak ditemukan"));
     }
 
     public ProdukKualitasStandar add(ProdukKualitasStandarDTO produkKualitasStandarDTO) {
@@ -36,12 +42,15 @@ public class ProdukKualitasStandarService {
         produkKualitasStandar.setCashKredit(produkKualitasStandarDTO.getCashKredit());
         produkKualitasStandar.setStatus(produkKualitasStandarDTO.getStatus());
         produkKualitasStandar.setLayanan(produkKualitasStandarDTO.getLayanan());
-        produkKualitasStandar.setJenisProyek(produkKualitasStandarDTO.getJenisProyek());
-        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(produkKualitasStandarDTO.getId_kategori_produk())
-                .orElseThrow(() -> new RuntimeException("Kategori Produk not found"));
-        produkKualitasStandar.setKategoriProduk(kategoriProduk);
         produkKualitasStandar.setTanggal(produkKualitasStandarDTO.getTanggal());
         produkKualitasStandar.setDelFlag(produkKualitasStandarDTO.getDelFlag());
+        produkKualitasStandar.setJenisProyek(produkKualitasStandarDTO.getJenisProyek());
+        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(produkKualitasStandarDTO.getIdKategoriProduk())
+                .orElseThrow(() -> new RuntimeException("Kategori produk not found"));
+        produkKualitasStandar.setKategoriProduk(kategoriProduk);
+        DetailProdukKualitasStandar detailProdukKualitasStandar = detailProdukKualitasStandarRepository.findById(produkKualitasStandarDTO.getIdDetailProdukStandar())
+                .orElseThrow(() -> new RuntimeException("Detail produk not found"));
+        produkKualitasStandar.setDetailProdukKualitasStandar(detailProdukKualitasStandar);
 
         return produkKualitasStandarRepository.save(produkKualitasStandar);
     }
@@ -55,21 +64,24 @@ public class ProdukKualitasStandarService {
         produkKualitasStandar.setStatus(produkKualitasStandarDTO.getStatus());
         produkKualitasStandar.setLayanan(produkKualitasStandarDTO.getLayanan());
         produkKualitasStandar.setJenisProyek(produkKualitasStandarDTO.getJenisProyek());
-        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(produkKualitasStandarDTO.getId_kategori_produk())
-                .orElseThrow(() -> new RuntimeException("Kategori Produk not found"));
-        produkKualitasStandar.setKategoriProduk(kategoriProduk);
         produkKualitasStandar.setTanggal(produkKualitasStandarDTO.getTanggal());
         produkKualitasStandar.setDelFlag(produkKualitasStandarDTO.getDelFlag());
+        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(produkKualitasStandarDTO.getIdKategoriProduk())
+                .orElseThrow(() -> new RuntimeException("Kategori Produk not found"));
+        produkKualitasStandar.setKategoriProduk(kategoriProduk);
+        DetailProdukKualitasStandar detailProdukKualitasStandar = detailProdukKualitasStandarRepository.findById(produkKualitasStandarDTO.getIdDetailProdukStandar())
+                .orElseThrow(() -> new RuntimeException("Detail produk not found"));
+        produkKualitasStandar.setDetailProdukKualitasStandar(detailProdukKualitasStandar);
 
         return produkKualitasStandarRepository.save(produkKualitasStandar);
     }
 
-    public void delete(Long id) {
-        if (produkKualitasStandarRepository.existsById(id)) {
-            produkKualitasStandarRepository.deleteById(id);
-        } else {
-            throw new IllegalArgumentException("ID = " + id + " tidak ditemukan");
-        }
+    public String delete(Long id) {
+        ProdukKualitasStandar produk = produkKualitasStandarRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Id tidak ditemukan"));
+
+        produkKualitasStandarRepository.delete(produk);
+        return "Produk dengan Id " + id + " berhasil dihapus.";
     }
 
     public Page<ProdukKualitasStandar> getAll(Pageable pageable) {

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,16 +28,22 @@ public class UserDetailService implements UserDetailsService {
     private PasswordEncoder bcryptEncoder;
 
     @Autowired
-    PasswordEncoder encoder;
+    private PasswordEncoder encoder;
 
     public Pengguna save(PenggunaDTO user) {
         try {
-            if (user.getUsernamePengguna() !=null && user.getPasswordPengguna() !=null && user.getPasswordPengguna().length() >=8) {
-                if (userDao.findByUsername(user.getUsernamePengguna()) == null) {
+            System.out.println("Checking username: " + user.getUsernamePengguna());
+            if (user.getUsernamePengguna() != null && user.getPasswordPengguna() != null && user.getPasswordPengguna().length() >= 8) {
+                Optional<Pengguna> existingUser = userDao.findByUsername(user.getUsernamePengguna());
+                System.out.println("Existing user: " + existingUser.isPresent());
+                if (existingUser.isEmpty()) {
                     Pengguna newUser = new Pengguna();
                     newUser.setUsernamePengguna(user.getUsernamePengguna());
                     newUser.setPasswordPengguna(bcryptEncoder.encode(user.getPasswordPengguna()));
                     newUser.setRolePengguna(user.getRolePengguna());
+                    newUser.setNamaPengguna(user.getNamaPengguna());
+                    newUser.setTanggal(new Date());
+                    newUser.setDelFlag(user.getDelFlag());
                     return userDao.save(newUser);
                 } else {
                     throw new IllegalArgumentException("username has been used");
@@ -48,6 +55,7 @@ public class UserDetailService implements UserDetailsService {
             throw new IllegalArgumentException("Registration Failed: " + e.getMessage());
         }
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String usernamePengguna) throws UsernameNotFoundException {
@@ -72,11 +80,21 @@ public class UserDetailService implements UserDetailsService {
         return userDao.save(pengguna);
     }
 
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         if (userDao.existsById(id)) {
             userDao.deleteById(id);
+            return true;
         } else {
-            throw new IllegalArgumentException("id = " + id + " tidak ditemukan");
+            throw new RuntimeException("Pungguna dengan Id " + id + " not found");
         }
+    }
+
+    public List<Pengguna> getAll() {
+        return userDao.findAll();
+    }
+
+    public Pengguna getById(Long id) {
+        return userDao.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pengguna dengan ID " + id + " tidak ditemukan"));
     }
 }

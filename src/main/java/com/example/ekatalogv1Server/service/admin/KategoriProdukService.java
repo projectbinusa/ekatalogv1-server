@@ -1,6 +1,7 @@
 package com.example.ekatalogv1Server.service.admin;
 
 import com.example.ekatalogv1Server.dto.KategoriProdukDTO;
+import com.example.ekatalogv1Server.exception.NotFoundException;
 import com.example.ekatalogv1Server.model.KategoriProduk;
 import com.example.ekatalogv1Server.repository.KategoriProdukRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class KategoriProdukService {
         return kategoriProdukRepository.findAll();
     }
 
-    public Optional <KategoriProduk> getById(Long id) {
-        return kategoriProdukRepository.findById(id);
+    public KategoriProduk getById(Long id) {
+        return kategoriProdukRepository.findById(id).orElseThrow(() -> new NotFoundException("Id tidak ditemukan"));
     }
 
     public KategoriProduk add(KategoriProdukDTO kategoriProdukDTO) {

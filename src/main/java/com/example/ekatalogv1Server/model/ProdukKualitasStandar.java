@@ -38,6 +38,10 @@ public class ProdukKualitasStandar extends DateConfig {
     private String jenisProyek;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "id_detail_produk_standar", updatable = false)
+    private DetailProdukKualitasStandar detailProdukKualitasStandar;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "Id_kategori_produk", updatable = false)
     private KategoriProduk kategoriProduk;
 
@@ -103,6 +107,14 @@ public class ProdukKualitasStandar extends DateConfig {
 
     public void setJenisProyek(String jenisProyek) {
         this.jenisProyek = jenisProyek;
+    }
+
+    public DetailProdukKualitasStandar getDetailProdukKualitasStandar() {
+        return detailProdukKualitasStandar;
+    }
+
+    public void setDetailProdukKualitasStandar(DetailProdukKualitasStandar detailProdukKualitasStandar) {
+        this.detailProdukKualitasStandar = detailProdukKualitasStandar;
     }
 
     public KategoriProduk getKategoriProduk() {
