@@ -1,10 +1,9 @@
 package com.example.ekatalogv1Server.controller;
 
 import com.example.ekatalogv1Server.config.JwtTokenUtil;
-import com.example.ekatalogv1Server.dto.JwtRequest;
-import com.example.ekatalogv1Server.dto.JwtResponse;
-import com.example.ekatalogv1Server.dto.PenggunaDTO;
-import com.example.ekatalogv1Server.dto.PenggunaUbahDTO;
+import com.example.ekatalogv1Server.dto.*;
+import com.example.ekatalogv1Server.exception.CommonResponse;
+import com.example.ekatalogv1Server.exception.ResponseHelper;
 import com.example.ekatalogv1Server.model.Pengguna;
 import com.example.ekatalogv1Server.repository.PenggunaRepository;
 import com.example.ekatalogv1Server.service.auth.UserDetailService;
@@ -16,7 +15,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -37,8 +38,13 @@ public class PenggunaController {
     private JwtTokenUtil jwtTokenUtil;
 
     // Endpoint Untuk Autentikasi Pengguna
+    @PostMapping("/add")
+    public CommonResponse<Pengguna> addPengguna(@RequestBody PenggunaDTO penggunaDTO) {
+        return ResponseHelper.ok(userDetailService.save(penggunaDTO));
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<?> authenticationPengguna(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public CommonResponse<?> authenticationPengguna(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailService.loadUserByUsername(authenticationRequest.getUsername());
@@ -51,7 +57,7 @@ public class PenggunaController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token, user));
+        return ResponseHelper.ok(new JwtResponse(token, user));
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -63,14 +69,22 @@ public class PenggunaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pengguna> update(@RequestBody PenggunaUbahDTO penggunaUbahDTO, @PathVariable Long id) {
-        Pengguna update = userDetailService.put(penggunaUbahDTO, id);
-        return ResponseEntity.ok(update);
+    public CommonResponse<Pengguna> update(@PathVariable("id") Long id , @RequestBody PenggunaUbahDTO penggunaUbahDTO) {
+        return ResponseHelper.ok(userDetailService.put(penggunaUbahDTO , id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        userDetailService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public CommonResponse<?> delete(@PathVariable("id") Long id) {
+        return ResponseHelper.ok(userDetailService.delete(id));
+    }
+
+    @GetMapping
+    public CommonResponse<List<Pengguna>> getAll() {
+        return ResponseHelper.ok(userDetailService.getAll());
+    }
+
+    @GetMapping("/{id}")
+    public CommonResponse<Pengguna> getById(@PathVariable("id") Long id) {
+        return ResponseHelper.ok(userDetailService.getById(id));
     }
 }

@@ -1,6 +1,8 @@
 package com.example.ekatalogv1Server.controller;
 
 import com.example.ekatalogv1Server.dto.KategoriProdukDTO;
+import com.example.ekatalogv1Server.exception.CommonResponse;
+import com.example.ekatalogv1Server.exception.ResponseHelper;
 import com.example.ekatalogv1Server.model.KategoriProduk;
 import com.example.ekatalogv1Server.service.admin.KategoriProdukService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +22,17 @@ public class KategoriProdukController {
     private KategoriProdukService kategoriProdukService;
 
     @GetMapping
-    public ResponseEntity<List<KategoriProduk>> getAll() {
-        List<KategoriProduk> kategoriProduks = kategoriProdukService.getAll();
-        return new ResponseEntity<>(kategoriProduks, HttpStatus.OK);
+    public CommonResponse<List<KategoriProduk>> getAll() {
+        return ResponseHelper.ok(kategoriProdukService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<KategoriProduk> getById(@PathVariable Long id) {
-        Optional<KategoriProduk> kategoriProduk = kategoriProdukService.getById(id);
-        return kategoriProduk.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "kategori produk not found"));
+    public CommonResponse<KategoriProduk> getById(@PathVariable("id") Long id) {
+        return ResponseHelper.ok(kategoriProdukService.getById(id));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<KategoriProduk> add(@RequestBody KategoriProdukDTO kategoriProdukDTO) {
-        KategoriProduk newData = kategoriProdukService.add(kategoriProdukDTO);
-        return new ResponseEntity<>(newData, HttpStatus.OK);
+    public CommonResponse<KategoriProduk> add(@RequestBody KategoriProdukDTO kategoriProdukDTO) {
+        return ResponseHelper.ok(kategoriProdukService.add(kategoriProdukDTO));
     }
 }

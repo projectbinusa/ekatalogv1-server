@@ -15,6 +15,9 @@ public class DetailProdukKualitasStandar extends DateConfig {
     @Column(name = "id_detail_produk_standar")
     private Long id;
 
+    @Column(name = "nama_produk", nullable = false, length = 255)
+    private String namaProduk;
+
     @Column(name = "del_flag", nullable = false, columnDefinition = "int default 1")
     private int delFlag;
 
@@ -32,20 +35,20 @@ public class DetailProdukKualitasStandar extends DateConfig {
     @Column(name = "stok_produk", nullable = false, length = 255)
     private int stokProduk;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "id_produk_kualitas_standar", updatable = false)
-    private ProdukKualitasStandar produkKualitasStandar;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "id_kategori_produk", updatable = false)
-    private KategoriProduk kategoriProduk;
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNamaProduk() {
+        return namaProduk;
+    }
+
+    public void setNamaProduk(String namaProduk) {
+        this.namaProduk = namaProduk;
     }
 
     public int getDelFlag() {
@@ -86,21 +89,5 @@ public class DetailProdukKualitasStandar extends DateConfig {
 
     public void setStokProduk(int stokProduk) {
         this.stokProduk = stokProduk;
-    }
-
-    public ProdukKualitasStandar getProdukKualitasStandar() {
-        return produkKualitasStandar;
-    }
-
-    public void setProdukKualitasStandar(ProdukKualitasStandar produkKualitasStandar) {
-        this.produkKualitasStandar = produkKualitasStandar;
-    }
-
-    public KategoriProduk getKategoriProduk() {
-        return kategoriProduk;
-    }
-
-    public void setKategoriProduk(KategoriProduk kategoriProduk) {
-        this.kategoriProduk = kategoriProduk;
     }
 }

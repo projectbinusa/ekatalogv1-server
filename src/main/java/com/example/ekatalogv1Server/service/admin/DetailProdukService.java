@@ -36,44 +36,34 @@ public class DetailProdukService {
         return detailProdukKualitasTinggiRepository.findAll();
     }
 
-    public Optional <DetailProdukKualitasStandar> getById(Long id) {
-        return detailProdukKualitasStandarRepository.findById(id);
+    public DetailProdukKualitasStandar getById(Long id) {
+        return detailProdukKualitasStandarRepository.findById(id).orElseThrow(() -> new RuntimeException("Id tidak ditemukan"));
     }
 
-    public Optional <DetailProdukKualitasTinggi> getByIdKualitasTinggi(Long id) {
-        return detailProdukKualitasTinggiRepository.findById(id);
+    public DetailProdukKualitasTinggi getByIdKualitasTinggi(Long id) {
+        return detailProdukKualitasTinggiRepository.findById(id).orElseThrow(() -> new RuntimeException("Id tidak ditemukan"));
     }
 
     public DetailProdukKualitasStandar add(DetailProdukKualitasStandarDTO detailProdukKualitasStandarDTO) {
         DetailProdukKualitasStandar detailProdukKualitasStandar = new DetailProdukKualitasStandar();
-        ProdukKualitasStandar produkKualitasStandar = produkKualitasStandarRepository.findById(detailProdukKualitasStandarDTO.getId_produk_kualitas_standar())
-                .orElseThrow(() -> new RuntimeException("produk kualitas standar not found"));
-        detailProdukKualitasStandar.setProdukKualitasStandar(produkKualitasStandar);
-        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(detailProdukKualitasStandarDTO.getId_kategori_produk())
-                .orElseThrow(() -> new RuntimeException("kategori produk not found"));
-        detailProdukKualitasStandar.setKategoriProduk(kategoriProduk);
         detailProdukKualitasStandar.setHargaProduk(detailProdukKualitasStandarDTO.getHargaProduk());
         detailProdukKualitasStandar.setStokProduk(detailProdukKualitasStandarDTO.getStokProduk());
         detailProdukKualitasStandar.setDeskripsi(detailProdukKualitasStandarDTO.getDeskripsi());
         detailProdukKualitasStandar.setTanggal(detailProdukKualitasStandarDTO.getTanggal());
         detailProdukKualitasStandar.setDelFlag(detailProdukKualitasStandarDTO.getDelFlag());
+        detailProdukKualitasStandar.setNamaProduk(detailProdukKualitasStandarDTO.getNamaProduk());
 
         return detailProdukKualitasStandarRepository.save(detailProdukKualitasStandar);
     }
 
     public DetailProdukKualitasTinggi addKualitasTinggi(DetailProdukKualitasTinggiDTO detailProdukKualitasTinggiDTO) {
         DetailProdukKualitasTinggi detailProdukKualitasTinggi = new DetailProdukKualitasTinggi();
-        ProdukKualitasTinggi produkKualitasTinggi = produkKualitasTinggiRepository.findById(detailProdukKualitasTinggiDTO.getId_produk_kualitas_tinggi())
-                .orElseThrow(() -> new RuntimeException("produk kualitas tinggi not found"));
-        detailProdukKualitasTinggi.setProdukKualitasTinggi(produkKualitasTinggi);
-        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(detailProdukKualitasTinggiDTO.getId_kategori_produk())
-                .orElseThrow(() -> new RuntimeException("kategori produk not found"));
-        detailProdukKualitasTinggi.setKategoriProduk(kategoriProduk);
         detailProdukKualitasTinggi.setHargaProduk(detailProdukKualitasTinggiDTO.getHargaProduk());
         detailProdukKualitasTinggi.setStokProduk(detailProdukKualitasTinggiDTO.getStokProduk());
         detailProdukKualitasTinggi.setDeskripsi(detailProdukKualitasTinggiDTO.getDeskripsi());
         detailProdukKualitasTinggi.setTanggal(detailProdukKualitasTinggiDTO.getTanggal());
         detailProdukKualitasTinggi.setDelFlag(detailProdukKualitasTinggiDTO.getDelFlag());
+        detailProdukKualitasTinggi.setNamaProduk(detailProdukKualitasTinggiDTO.getNamaProduk());
 
         return detailProdukKualitasTinggiRepository.save(detailProdukKualitasTinggi);
     }
@@ -82,17 +72,12 @@ public class DetailProdukService {
     public DetailProdukKualitasStandar put(DetailProdukKualitasStandarDTO detailProdukKualitasStandarDTO, Long id) {
         DetailProdukKualitasStandar detailProdukKualitasStandar = detailProdukKualitasStandarRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("detail produk not found"));
-        ProdukKualitasStandar produkKualitasStandar = produkKualitasStandarRepository.findById(detailProdukKualitasStandarDTO.getId_produk_kualitas_standar())
-                .orElseThrow(() -> new RuntimeException("produk kualitas standar not found"));
-        detailProdukKualitasStandar.setProdukKualitasStandar(produkKualitasStandar);
-        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(detailProdukKualitasStandarDTO.getId_kategori_produk())
-                .orElseThrow(() -> new RuntimeException("kategori produk not found"));
-        detailProdukKualitasStandar.setKategoriProduk(kategoriProduk);
         detailProdukKualitasStandar.setHargaProduk(detailProdukKualitasStandarDTO.getHargaProduk());
         detailProdukKualitasStandar.setStokProduk(detailProdukKualitasStandarDTO.getStokProduk());
         detailProdukKualitasStandar.setDeskripsi(detailProdukKualitasStandarDTO.getDeskripsi());
         detailProdukKualitasStandar.setTanggal(detailProdukKualitasStandarDTO.getTanggal());
         detailProdukKualitasStandar.setDelFlag(detailProdukKualitasStandarDTO.getDelFlag());
+        detailProdukKualitasStandar.setNamaProduk(detailProdukKualitasStandarDTO.getNamaProduk());
 
         return detailProdukKualitasStandarRepository.save(detailProdukKualitasStandar);
     }
@@ -101,34 +86,29 @@ public class DetailProdukService {
     public DetailProdukKualitasTinggi putKualitasTinggi(DetailProdukKualitasTinggiDTO detailProdukKualitasTinggiDTO, Long id) {
         DetailProdukKualitasTinggi detailProdukKualitasTinggi = detailProdukKualitasTinggiRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("detail produk not found"));
-        ProdukKualitasTinggi produkKualitasTinggi = produkKualitasTinggiRepository.findById(detailProdukKualitasTinggiDTO.getId_produk_kualitas_tinggi())
-                .orElseThrow(() -> new RuntimeException("produk kualitas tinggi not found"));
-        detailProdukKualitasTinggi.setProdukKualitasTinggi(produkKualitasTinggi);
-        KategoriProduk kategoriProduk = kategoriProdukRepository.findById(detailProdukKualitasTinggiDTO.getId_kategori_produk())
-                .orElseThrow(() -> new RuntimeException("kategori produk not found"));
-        detailProdukKualitasTinggi.setKategoriProduk(kategoriProduk);
         detailProdukKualitasTinggi.setHargaProduk(detailProdukKualitasTinggiDTO.getHargaProduk());
         detailProdukKualitasTinggi.setStokProduk(detailProdukKualitasTinggiDTO.getStokProduk());
         detailProdukKualitasTinggi.setDeskripsi(detailProdukKualitasTinggiDTO.getDeskripsi());
         detailProdukKualitasTinggi.setTanggal(detailProdukKualitasTinggiDTO.getTanggal());
         detailProdukKualitasTinggi.setDelFlag(detailProdukKualitasTinggiDTO.getDelFlag());
+        detailProdukKualitasTinggi.setNamaProduk(detailProdukKualitasTinggiDTO.getNamaProduk());
 
         return detailProdukKualitasTinggiRepository.save(detailProdukKualitasTinggi);
     }
 
-    public void deleteKualitasStandar(Long id) {
-        if (detailProdukKualitasStandarRepository.existsById(id)) {
-            detailProdukKualitasStandarRepository.deleteById(id);
-        } else {
-            throw new IllegalArgumentException("Id = " + id + " tidak ditemukan");
-        }
+    public String deleteKualitasStandar(Long id) {
+        DetailProdukKualitasStandar detailProdukKualitasStandar = detailProdukKualitasStandarRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Id detail " + id + " not found "));
+
+        detailProdukKualitasStandarRepository.delete(detailProdukKualitasStandar);
+        return "Id dengan " + id + " berhasil dihapus.";
     }
 
-    public void deleteKualitasTinggi(Long id) {
-        if (detailProdukKualitasTinggiRepository.existsById(id)) {
-            detailProdukKualitasTinggiRepository.deleteById(id);
-        } else {
-            throw new IllegalArgumentException("id = " + id + " tidak ditemukan");
-        }
+    public String deleteKualitasTinggi(Long id) {
+        DetailProdukKualitasTinggi detailProdukKualitasTinggi = detailProdukKualitasTinggiRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Id detail " + id + " not found"));
+
+        detailProdukKualitasTinggiRepository.delete(detailProdukKualitasTinggi);
+        return "Id dengan " + id + " berhasil dihapus.";
     }
 }

@@ -2,6 +2,8 @@ package com.example.ekatalogv1Server.controller;
 
 import com.example.ekatalogv1Server.dto.DetailProdukKualitasStandarDTO;
 import com.example.ekatalogv1Server.dto.DetailProdukKualitasTinggiDTO;
+import com.example.ekatalogv1Server.exception.CommonResponse;
+import com.example.ekatalogv1Server.exception.ResponseHelper;
 import com.example.ekatalogv1Server.model.DetailProdukKualitasStandar;
 import com.example.ekatalogv1Server.model.DetailProdukKualitasTinggi;
 import com.example.ekatalogv1Server.service.admin.DetailProdukService;
@@ -23,64 +25,52 @@ public class DetailProdukController {
     private DetailProdukService detailProdukService;
 
     @GetMapping("/kualitas_standar")
-    public ResponseEntity<List<DetailProdukKualitasStandar>> getAll() {
-        List<DetailProdukKualitasStandar> detailProduks = detailProdukService.getAll();
-        return new ResponseEntity<>(detailProduks, HttpStatus.OK);
+    public CommonResponse<List<DetailProdukKualitasStandar>> getAll() {
+        return ResponseHelper.ok(detailProdukService.getAll());
     }
 
     @GetMapping("/kualitas_tinggi")
-    public ResponseEntity<List<DetailProdukKualitasTinggi>> getAllKualitasTinggi() {
-        List<DetailProdukKualitasTinggi> detailProduk = detailProdukService.getAllKualitasTinggi();
-        return new ResponseEntity<>(detailProduk, HttpStatus.OK);
+    public CommonResponse<List<DetailProdukKualitasTinggi>> getAllKualitasTinggi() {
+        return ResponseHelper.ok(detailProdukService.getAllKualitasTinggi());
     }
 
     @GetMapping("/kualitas_standar/{id}")
-    public ResponseEntity<DetailProdukKualitasStandar> getById(@PathVariable Long id) {
-        Optional<DetailProdukKualitasStandar> detailProduk = detailProdukService.getById(id);
-        return detailProduk.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Detail Produk kualitas standar Not Found"));
+    public CommonResponse<DetailProdukKualitasStandar> getById(@PathVariable("id") Long id) {
+        return ResponseHelper.ok(detailProdukService.getById(id));
     }
 
     @GetMapping("/kualitas_tinggi/{id}")
-    public ResponseEntity<DetailProdukKualitasTinggi> getByIdKualitasTinggi(@PathVariable Long id) {
-        Optional<DetailProdukKualitasTinggi> detailProduk = detailProdukService.getByIdKualitasTinggi(id);
-        return detailProduk.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "detail produk kualitas tinggi not found"));
+    public CommonResponse<DetailProdukKualitasTinggi> getByIdKualitasTinggi(@PathVariable("id") Long id) {
+        return ResponseHelper.ok(detailProdukService.getByIdKualitasTinggi(id));
     }
 
     @PostMapping("/add/kualitas_standar")
-    public ResponseEntity<DetailProdukKualitasStandar> add(@RequestBody DetailProdukKualitasStandarDTO detailProdukKualitasStandarDTO) {
-        DetailProdukKualitasStandar newData = detailProdukService.add(detailProdukKualitasStandarDTO);
-        return new ResponseEntity<>(newData, HttpStatus.OK);
+    public CommonResponse<DetailProdukKualitasStandar> add(@RequestBody DetailProdukKualitasStandarDTO detailProdukKualitasStandarDTO) {
+        return ResponseHelper.ok(detailProdukService.add(detailProdukKualitasStandarDTO));
     }
 
     @PostMapping("/add/kualitas_tinggi")
-    public ResponseEntity<DetailProdukKualitasTinggi> addKualitasTinggi(@RequestBody DetailProdukKualitasTinggiDTO detailProdukKualitasTinggiDTO) {
-        DetailProdukKualitasTinggi newData = detailProdukService.addKualitasTinggi(detailProdukKualitasTinggiDTO);
-        return new ResponseEntity<>(newData, HttpStatus.OK);
+    public CommonResponse<DetailProdukKualitasTinggi> addKualitasTinggi(@RequestBody DetailProdukKualitasTinggiDTO detailProdukKualitasTinggiDTO) {
+        return ResponseHelper.ok(detailProdukService.addKualitasTinggi(detailProdukKualitasTinggiDTO));
     }
 
     @PutMapping("/kualitas_standar/{id}")
-    public ResponseEntity<DetailProdukKualitasStandar> updateProduk(@RequestBody DetailProdukKualitasStandarDTO detailProdukKualitasStandarDTO, @PathVariable Long id) {
-        DetailProdukKualitasStandar updateProduk = detailProdukService.put(detailProdukKualitasStandarDTO, id);
-        return ResponseEntity.ok(updateProduk);
+    public CommonResponse<DetailProdukKualitasStandar> updateProduk(@PathVariable("id") Long id , @RequestBody DetailProdukKualitasStandarDTO detailProdukKualitasStandarDTO) {
+        return ResponseHelper.ok(detailProdukService.put(detailProdukKualitasStandarDTO , id));
     }
 
     @PutMapping("/kualitas_tinggi/{id}")
-    public ResponseEntity<DetailProdukKualitasTinggi> updateProdukKualitasTinggi(@RequestBody DetailProdukKualitasTinggiDTO detailProdukKualitasTinggiDTO, @PathVariable Long id) {
-        DetailProdukKualitasTinggi updateProdukKualitasTinggi = detailProdukService.putKualitasTinggi(detailProdukKualitasTinggiDTO, id);
-        return ResponseEntity.ok(updateProdukKualitasTinggi);
+    public CommonResponse<DetailProdukKualitasTinggi> updateProdukKualitasTinggi(@PathVariable("id") Long id , @RequestBody DetailProdukKualitasTinggiDTO detailProdukKualitasTinggiDTO) {
+        return ResponseHelper.ok(detailProdukService.putKualitasTinggi(detailProdukKualitasTinggiDTO , id));
     }
 
     @DeleteMapping("/kualitas_standar/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        detailProdukService.deleteKualitasStandar(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public CommonResponse<?> delete(@PathVariable("id") Long id) {
+        return ResponseHelper.ok(detailProdukService.deleteKualitasStandar(id));
     }
 
     @DeleteMapping("/kualitas_tinggi/{id}")
-    public ResponseEntity<Void> deleteKualitasTinggi(@PathVariable Long id) {
-        detailProdukService.deleteKualitasTinggi(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public CommonResponse<?> deleteKualitasTinggi(@PathVariable("id") Long id) {
+        return ResponseHelper.ok(detailProdukService.deleteKualitasTinggi(id));
     }
 }
