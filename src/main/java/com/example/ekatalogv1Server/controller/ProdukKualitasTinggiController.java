@@ -6,13 +6,18 @@ import com.example.ekatalogv1Server.exception.PaginationResponse;
 import com.example.ekatalogv1Server.exception.ResponseHelper;
 import com.example.ekatalogv1Server.model.ProdukKualitasTinggi;
 import com.example.ekatalogv1Server.service.admin.ProdukKualitasTinggiService;
+import com.example.ekatalogv1Server.service.admin.excel.ExcelProdukKualitasTinggiAllService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +29,9 @@ public class ProdukKualitasTinggiController {
 
     @Autowired
     private ProdukKualitasTinggiService produkKualitasTinggiService;
+
+    @Autowired
+    private ExcelProdukKualitasTinggiAllService excelProdukKualitasTinggiAllService;
 
     @GetMapping
     public CommonResponse<List<ProdukKualitasTinggi>> getAll() {
@@ -71,5 +79,14 @@ public class ProdukKualitasTinggiController {
         ));
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("export/produkTinggi/All")
+    public void exportExcelProdukTinggiAll(
+            @RequestParam("tglAwal") @DateTimeFormat(pattern = "yyy-MM-dd") Date tglAwal,
+            @RequestParam("tglAkhir") @DateTimeFormat(pattern = "yyyy-MM-dd") Date tglAkhir,
+            HttpServletResponse response) throws IOException {
+
+        excelProdukKualitasTinggiAllService.excelLaporanProdukTinggi(tglAwal, tglAkhir, response);
     }
 }
