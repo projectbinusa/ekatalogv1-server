@@ -50,7 +50,7 @@ public class DetailProdukService {
         detailProdukKualitasStandar.setStokProduk(detailProdukKualitasStandarDTO.getStokProduk());
         detailProdukKualitasStandar.setDeskripsi(detailProdukKualitasStandarDTO.getDeskripsi());
         detailProdukKualitasStandar.setTanggal(detailProdukKualitasStandarDTO.getTanggal());
-        detailProdukKualitasStandar.setDelFlag(detailProdukKualitasStandarDTO.getDelFlag());
+        detailProdukKualitasStandar.setDelFlag(1);
         detailProdukKualitasStandar.setNamaProduk(detailProdukKualitasStandarDTO.getNamaProduk());
 
         return detailProdukKualitasStandarRepository.save(detailProdukKualitasStandar);
@@ -62,7 +62,7 @@ public class DetailProdukService {
         detailProdukKualitasTinggi.setStokProduk(detailProdukKualitasTinggiDTO.getStokProduk());
         detailProdukKualitasTinggi.setDeskripsi(detailProdukKualitasTinggiDTO.getDeskripsi());
         detailProdukKualitasTinggi.setTanggal(detailProdukKualitasTinggiDTO.getTanggal());
-        detailProdukKualitasTinggi.setDelFlag(detailProdukKualitasTinggiDTO.getDelFlag());
+        detailProdukKualitasTinggi.setDelFlag(1);
         detailProdukKualitasTinggi.setNamaProduk(detailProdukKualitasTinggiDTO.getNamaProduk());
 
         return detailProdukKualitasTinggiRepository.save(detailProdukKualitasTinggi);
@@ -76,7 +76,7 @@ public class DetailProdukService {
         detailProdukKualitasStandar.setStokProduk(detailProdukKualitasStandarDTO.getStokProduk());
         detailProdukKualitasStandar.setDeskripsi(detailProdukKualitasStandarDTO.getDeskripsi());
         detailProdukKualitasStandar.setTanggal(detailProdukKualitasStandarDTO.getTanggal());
-        detailProdukKualitasStandar.setDelFlag(detailProdukKualitasStandarDTO.getDelFlag());
+        detailProdukKualitasStandar.setDelFlag(1);
         detailProdukKualitasStandar.setNamaProduk(detailProdukKualitasStandarDTO.getNamaProduk());
 
         return detailProdukKualitasStandarRepository.save(detailProdukKualitasStandar);
@@ -90,7 +90,7 @@ public class DetailProdukService {
         detailProdukKualitasTinggi.setStokProduk(detailProdukKualitasTinggiDTO.getStokProduk());
         detailProdukKualitasTinggi.setDeskripsi(detailProdukKualitasTinggiDTO.getDeskripsi());
         detailProdukKualitasTinggi.setTanggal(detailProdukKualitasTinggiDTO.getTanggal());
-        detailProdukKualitasTinggi.setDelFlag(detailProdukKualitasTinggiDTO.getDelFlag());
+        detailProdukKualitasTinggi.setDelFlag(1);
         detailProdukKualitasTinggi.setNamaProduk(detailProdukKualitasTinggiDTO.getNamaProduk());
 
         return detailProdukKualitasTinggiRepository.save(detailProdukKualitasTinggi);

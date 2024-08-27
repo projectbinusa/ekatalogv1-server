@@ -43,8 +43,8 @@ public class ProdukKualitasStandarService {
         produkKualitasStandar.setStatus(produkKualitasStandarDTO.getStatus());
         produkKualitasStandar.setLayanan(produkKualitasStandarDTO.getLayanan());
         produkKualitasStandar.setTanggal(produkKualitasStandarDTO.getTanggal());
-        produkKualitasStandar.setDelFlag(produkKualitasStandarDTO.getDelFlag());
         produkKualitasStandar.setJenisProyek(produkKualitasStandarDTO.getJenisProyek());
+        produkKualitasStandar.setDelFlag(1);
         KategoriProduk kategoriProduk = kategoriProdukRepository.findById(produkKualitasStandarDTO.getIdKategoriProduk())
                 .orElseThrow(() -> new RuntimeException("Kategori produk not found"));
         produkKualitasStandar.setKategoriProduk(kategoriProduk);
