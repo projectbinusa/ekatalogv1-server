@@ -136,4 +136,5 @@ public class ProdukKualitasStandar extends DateConfig {
     public void setKategoriProduk(KategoriProduk kategoriProduk) {
         this.kategoriProduk = kategoriProduk;
     }
+
 }
