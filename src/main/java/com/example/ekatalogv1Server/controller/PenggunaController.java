@@ -87,4 +87,5 @@ public class PenggunaController {
     public CommonResponse<Pengguna> getById(@PathVariable("id") Long id) {
         return ResponseHelper.ok(userDetailService.getById(id));
     }
+
 }
