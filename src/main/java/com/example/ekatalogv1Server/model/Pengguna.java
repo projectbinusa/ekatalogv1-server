@@ -36,7 +36,6 @@ public class Pengguna extends DateConfig {
     private Date tanggal;
 
     // Getter Setter
-
     public Long getIdPengguna() {
         return IdPengguna;
     }

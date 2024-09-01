@@ -35,6 +35,8 @@ public class DetailProdukKualitasStandar extends DateConfig {
     @Column(name = "stok_produk", nullable = false, length = 255)
     private int stokProduk;
 
+    // Getter and Setter
+
     public Long getId() {
         return id;
     }

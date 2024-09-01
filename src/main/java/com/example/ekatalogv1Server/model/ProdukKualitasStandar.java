@@ -49,6 +49,8 @@ public class ProdukKualitasStandar extends DateConfig {
     @JoinColumn(name = "Id_kategori_produk", updatable = false)
     private KategoriProduk kategoriProduk;
 
+    // Getter and Setter
+
     public Long getId() {
         return id;
     }

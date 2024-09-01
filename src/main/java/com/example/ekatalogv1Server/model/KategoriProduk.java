@@ -23,6 +23,8 @@ public class KategoriProduk extends DateConfig {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "Asia/Jakarta")
     private Date tanggal;
 
+    // Getter and Setter
+
     public Long getId() {
         return id;
     }
