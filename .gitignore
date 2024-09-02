@@ -32,3 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 serviceAccountKey.json
+serviceAccountKey.json
+ServiceAccountKey.json
+ServiceAccountKey.json
