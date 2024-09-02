@@ -7,6 +7,8 @@ public class KategoriProdukDTO {
     private String namaKategori;
     private Date tanggal;
 
+    // Getter and Setter
+
     public String getNamaKategori() {
         return namaKategori;
     }

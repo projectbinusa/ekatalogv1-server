@@ -5,6 +5,8 @@ public class PenggunaUbahDTO {
     private String nama;
     private String password;
 
+    // Getter and Setter
+
     public String getNama() {
         return nama;
     }

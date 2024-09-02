@@ -14,6 +14,8 @@ public class ProdukKualitasTinggiDTO {
     private Long IdKategoriProduk;
     private int delFlag;
 
+    // Getter and Setter
+
     public String getNamaProduk() {
         return namaProduk;
     }
