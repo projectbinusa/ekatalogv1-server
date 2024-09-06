@@ -27,31 +27,37 @@ public class ProdukKualitasTinggiController {
     @Autowired
     private ExcelProdukKualitasTinggiAllService excelProdukKualitasTinggiAllService;
 
+    // Get All data
     @GetMapping
     public CommonResponse<List<ProdukKualitasTinggi>> getAll() {
         return ResponseHelper.ok(produkKualitasTinggiService.getAll());
     }
 
+    // Get byId data
     @GetMapping("/{id}")
     public CommonResponse<ProdukKualitasTinggi> getById(@PathVariable("id") Long id) {
         return ResponseHelper.ok(produkKualitasTinggiService.getById(id));
     }
 
+    // Add data
     @PostMapping("/add")
     public CommonResponse<ProdukKualitasTinggi> add(@RequestBody ProdukKualitasTinggiDTO produkKualitasTinggiDTO) {
         return ResponseHelper.ok(produkKualitasTinggiService.add(produkKualitasTinggiDTO));
     }
 
+    // Update data
     @PutMapping("/{id}")
     public CommonResponse<ProdukKualitasTinggi> put(@PathVariable("id") Long id , @RequestBody ProdukKualitasTinggiDTO produkKualitasTinggiDTO) {
         return ResponseHelper.ok(produkKualitasTinggiService.put(produkKualitasTinggiDTO , id));
     }
 
+    // Delete data
     @DeleteMapping("/{id}")
     public CommonResponse<?> delete(@PathVariable("id") Long id) {
         return ResponseHelper.ok(produkKualitasTinggiService.delete(id));
     }
 
+    // EndPoint pagination
     @GetMapping(path = "/pagination")
     public ResponseEntity<PaginationResponse<Page<ProdukKualitasTinggi>>> getAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -75,6 +81,7 @@ public class ProdukKualitasTinggiController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // EndPoint export All
     @GetMapping("export/produkTinggi/All")
     public void exportExcelProdukTinggiAll(
             @RequestParam("tglAwal") @DateTimeFormat(pattern = "yyy-MM-dd") Date tglAwal,
@@ -84,6 +91,7 @@ public class ProdukKualitasTinggiController {
         excelProdukKualitasTinggiAllService.excelLaporanProdukTinggi(tglAwal, tglAkhir, response);
     }
 
+    // Update image byId
     @PostMapping("add/image/{id}")
     public ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestPart("image")MultipartFile image) {
         try {

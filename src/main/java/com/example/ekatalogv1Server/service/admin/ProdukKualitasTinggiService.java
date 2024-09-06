@@ -21,7 +21,7 @@ import java.util.*;
 @Service
 public class ProdukKualitasTinggiService {
 
-    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/my-upload-image-9a0d5.appspot.com/o/%s?alt=media";
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/e-katalog-cd566.appspot.com/o/%s?alt=media";
 
     @Autowired
     private ProdukKualitasTinggiRepository produkKualitasTinggiRepository;
@@ -97,11 +97,11 @@ public class ProdukKualitasTinggiService {
 
     private String uploadFoto(MultipartFile multipartFile, String fileName) throws IOException {
         String timestamp = String.valueOf(System.currentTimeMillis());
-        String folderPath = "/";
+        String folderPath = "admin1/";
         String fullPath = folderPath + timestamp + "_" + fileName;
-        BlobId blobId = BlobId.of("my-upload-image-9a0d5.appspot.com", fullPath);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/serviceAccountKey.json"));
+        BlobId blobId = BlobId.of("e-katalog-cd566.appspot.com", fullPath);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
+        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseAccountKey.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, multipartFile.getBytes());
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fullPath, StandardCharsets.UTF_8));

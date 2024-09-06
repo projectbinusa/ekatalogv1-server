@@ -5,7 +5,7 @@ import java.util.Date;
 public class KategoriProdukDTO {
 
     private String namaKategori;
-    private Date tanggal;
+//    private Date tanggal;
 
     // Getter and Setter
 
@@ -17,11 +17,11 @@ public class KategoriProdukDTO {
         this.namaKategori = namaKategori;
     }
 
-    public Date getTanggal() {
-        return tanggal;
-    }
-
-    public void setTanggal(Date tanggal) {
-        this.tanggal = tanggal;
-    }
+//    public Date getTanggal() {
+//        return tanggal;
+//    }
+//
+//    public void setTanggal(Date tanggal) {
+//        this.tanggal = tanggal;
+//    }
 }

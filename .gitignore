@@ -31,7 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
-serviceAccountKey.json
-serviceAccountKey.json
-ServiceAccountKey.json
-ServiceAccountKey.json
+
+### File JSON sensitif ###
+firebaseAccountKey.json
+FirebaseAccountKey.json
+src/main/resources/firebaseAccountKey.json

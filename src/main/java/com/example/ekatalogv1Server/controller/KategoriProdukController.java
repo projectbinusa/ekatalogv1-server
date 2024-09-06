@@ -21,16 +21,19 @@ public class KategoriProdukController {
     @Autowired
     private KategoriProdukService kategoriProdukService;
 
+    // Get All data
     @GetMapping
     public CommonResponse<List<KategoriProduk>> getAll() {
         return ResponseHelper.ok(kategoriProdukService.getAll());
     }
 
+    // Get byId data
     @GetMapping("/{id}")
     public CommonResponse<KategoriProduk> getById(@PathVariable("id") Long id) {
         return ResponseHelper.ok(kategoriProdukService.getById(id));
     }
 
+    // Add data
     @PostMapping("/add")
     public CommonResponse<KategoriProduk> add(@RequestBody KategoriProdukDTO kategoriProdukDTO) {
         return ResponseHelper.ok(kategoriProdukService.add(kategoriProdukDTO));

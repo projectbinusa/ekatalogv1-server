@@ -68,21 +68,25 @@ public class PenggunaController {
         }
     }
 
+    // Update data pengguna
     @PutMapping("/{id}")
     public CommonResponse<Pengguna> update(@PathVariable("id") Long id , @RequestBody PenggunaUbahDTO penggunaUbahDTO) {
         return ResponseHelper.ok(userDetailService.put(penggunaUbahDTO , id));
     }
 
+    // Delete data pengguna
     @DeleteMapping("/{id}")
     public CommonResponse<?> delete(@PathVariable("id") Long id) {
         return ResponseHelper.ok(userDetailService.delete(id));
     }
 
+    // Get all data pengguna
     @GetMapping
     public CommonResponse<List<Pengguna>> getAll() {
         return ResponseHelper.ok(userDetailService.getAll());
     }
 
+    // Get byId data pengguna
     @GetMapping("/{id}")
     public CommonResponse<Pengguna> getById(@PathVariable("id") Long id) {
         return ResponseHelper.ok(userDetailService.getById(id));

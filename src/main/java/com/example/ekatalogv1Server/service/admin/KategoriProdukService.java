@@ -26,7 +26,7 @@ public class KategoriProdukService {
     public KategoriProduk add(KategoriProdukDTO kategoriProdukDTO) {
         KategoriProduk kategoriProduk = new KategoriProduk();
         kategoriProduk.setNamaKategori(kategoriProdukDTO.getNamaKategori());
-        kategoriProduk.setTanggal(kategoriProdukDTO.getTanggal());
+//        kategoriProduk.setTanggal(kategoriProdukDTO.getTanggal());
 
         return kategoriProdukRepository.save(kategoriProduk);
     }
