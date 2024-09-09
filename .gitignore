@@ -33,4 +33,5 @@ build/
 .vscode/
 
 # Mengabaikan file FirebaseAccountKey.json
-src/main/resources/FirebaseAccountKey.json
+FirebaseAccountKey.json
+firebaseAccountKey.json
