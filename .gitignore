@@ -35,4 +35,3 @@ build/
 # Mengabaikan file serviceAccountKey.json
 serviceAccountKey.json
 ServiceAccountKey.json
-
