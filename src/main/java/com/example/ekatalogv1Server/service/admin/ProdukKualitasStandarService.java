@@ -101,7 +101,7 @@ public class ProdukKualitasStandarService {
         String fullPath = folderPath + timestamp + "_" + fileName;
         BlobId blobId = BlobId.of("e-katalog-cd566.appspot.com", fullPath);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
-        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/FirebaseAccountKey.json"));
+        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/serviceAccountKey.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, multipartFile.getBytes());
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fullPath, StandardCharsets.UTF_8));
