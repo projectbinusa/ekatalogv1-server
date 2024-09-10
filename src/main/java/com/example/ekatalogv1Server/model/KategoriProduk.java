@@ -18,10 +18,12 @@ public class KategoriProduk extends DateConfig {
     @Column(name = "nama_kategori", nullable = false, length = 255)
     private String namaKategori;
 
-    @Column(name = "tanggal", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "Asia/Jakarta")
-    private Date tanggal;
+//    @Column(name = "tanggal", nullable = false)
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "Asia/Jakarta")
+//    private Date tanggal;
+
+    // Getter and Setter
 
     public Long getId() {
         return id;
@@ -39,11 +41,12 @@ public class KategoriProduk extends DateConfig {
         this.namaKategori = namaKategori;
     }
 
-    public Date getTanggal() {
-        return tanggal;
-    }
+//    public Date getTanggal() {
+//        return tanggal;
+//    }
+//
+//    public void setTanggal(Date tanggal) {
+//        this.tanggal = tanggal;
+//    }
 
-    public void setTanggal(Date tanggal) {
-        this.tanggal = tanggal;
-    }
 }

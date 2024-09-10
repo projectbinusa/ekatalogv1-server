@@ -2,22 +2,26 @@ package com.example.ekatalogv1Server.service.admin;
 
 import com.example.ekatalogv1Server.dto.ProdukKualitasTinggiDTO;
 import com.example.ekatalogv1Server.exception.NotFoundException;
-import com.example.ekatalogv1Server.model.DetailProdukKualitasTinggi;
-import com.example.ekatalogv1Server.model.KategoriProduk;
-import com.example.ekatalogv1Server.model.ProdukKualitasTinggi;
-import com.example.ekatalogv1Server.repository.DetailProdukKualitasTinggiRepository;
-import com.example.ekatalogv1Server.repository.KategoriProdukRepository;
-import com.example.ekatalogv1Server.repository.ProdukKualitasTinggiRepository;
+import com.example.ekatalogv1Server.model.*;
+import com.example.ekatalogv1Server.repository.*;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
 public class ProdukKualitasTinggiService {
+
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/e-katalog-cd566.appspot.com/o/%s?alt=media";
 
     @Autowired
     private ProdukKualitasTinggiRepository produkKualitasTinggiRepository;
@@ -80,5 +84,26 @@ public class ProdukKualitasTinggiService {
 
     public Page<ProdukKualitasTinggi> getAll(Pageable pageable) {
         return produkKualitasTinggiRepository.findAll(pageable);
+    }
+
+    public ProdukKualitasTinggi uploadImage(Long id, MultipartFile image) throws NotFoundException, IOException {
+        ProdukKualitasTinggi produkKualitasTinggiOptional = produkKualitasTinggiRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("id tidak ditemukan"));
+        String fileUrl = uploadFoto(image, "image_" + id);
+        produkKualitasTinggiOptional.setImage(fileUrl);
+
+        return produkKualitasTinggiRepository.save(produkKualitasTinggiOptional);
+    }
+
+    private String uploadFoto(MultipartFile multipartFile, String fileName) throws IOException {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String folderPath = "admin1/";
+        String fullPath = folderPath + timestamp + "_" + fileName;
+        BlobId blobId = BlobId.of("e-katalog-cd566.appspot.com", fullPath);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
+        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/FirebaseAccountKey.json"));
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        storage.create(blobInfo, multipartFile.getBytes());
+        return String.format(DOWNLOAD_URL, URLEncoder.encode(fullPath, StandardCharsets.UTF_8));
     }
 }

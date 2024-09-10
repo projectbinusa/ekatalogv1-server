@@ -7,7 +7,7 @@ public class PenggunaDTO {
     private String usernamePengguna;
     private int delFlag;
 
-    // Getter Setter
+    // Getter and Setter
 
     public String getNamaPengguna() {
         return namaPengguna;

@@ -90,6 +90,13 @@
 			<artifactId>xmlbeans</artifactId>
 			<version>4.0.0</version>
 		</dependency>
+
+		<!-- Dependasi firebase image -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.1.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

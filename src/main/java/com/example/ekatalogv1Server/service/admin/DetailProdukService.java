@@ -1,7 +1,6 @@
 package com.example.ekatalogv1Server.service.admin;
 
-import com.example.ekatalogv1Server.dto.DetailProdukKualitasStandarDTO;
-import com.example.ekatalogv1Server.dto.DetailProdukKualitasTinggiDTO;
+import com.example.ekatalogv1Server.dto.*;
 import com.example.ekatalogv1Server.model.*;
 import com.example.ekatalogv1Server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;

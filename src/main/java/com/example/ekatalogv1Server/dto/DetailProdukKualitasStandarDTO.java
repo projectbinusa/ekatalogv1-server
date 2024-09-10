@@ -11,6 +11,8 @@ public class DetailProdukKualitasStandarDTO {
     private Date tanggal;
     private int stokProduk;
 
+    // Getter and Setter
+
     public int getDelFlag() {
         return delFlag;
     }

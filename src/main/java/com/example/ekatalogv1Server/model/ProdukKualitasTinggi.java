@@ -37,6 +37,10 @@ public class ProdukKualitasTinggi extends DateConfig {
     @Column(name = "jenis_proyek", nullable = false, length = 255)
     private String jenisProyek;
 
+    @Lob
+    @Column(name = "image")
+    private String image;
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "id_detail_produk_tinggi", updatable = false)
     private DetailProdukKualitasTinggi detailProdukKualitasTinggi;
@@ -44,6 +48,8 @@ public class ProdukKualitasTinggi extends DateConfig {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "Id_kategori_produk", updatable = false)
     private KategoriProduk kategoriProduk;
+
+    // Getter and Setter
 
     public Long getId() {
         return id;
@@ -109,6 +115,14 @@ public class ProdukKualitasTinggi extends DateConfig {
         this.jenisProyek = jenisProyek;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public DetailProdukKualitasTinggi getDetailProdukKualitasTinggi() {
         return detailProdukKualitasTinggi;
     }
@@ -124,4 +138,5 @@ public class ProdukKualitasTinggi extends DateConfig {
     public void setKategoriProduk(KategoriProduk kategoriProduk) {
         this.kategoriProduk = kategoriProduk;
     }
+
 }

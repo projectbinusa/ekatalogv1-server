@@ -1,26 +1,20 @@
 package com.example.ekatalogv1Server.controller;
 
 import com.example.ekatalogv1Server.dto.ProdukKualitasTinggiDTO;
-import com.example.ekatalogv1Server.exception.CommonResponse;
-import com.example.ekatalogv1Server.exception.PaginationResponse;
-import com.example.ekatalogv1Server.exception.ResponseHelper;
+import com.example.ekatalogv1Server.exception.*;
 import com.example.ekatalogv1Server.model.ProdukKualitasTinggi;
 import com.example.ekatalogv1Server.service.admin.ProdukKualitasTinggiService;
 import com.example.ekatalogv1Server.service.admin.excel.ExcelProdukKualitasTinggiAllService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/kualitas_tinggi")
@@ -33,31 +27,37 @@ public class ProdukKualitasTinggiController {
     @Autowired
     private ExcelProdukKualitasTinggiAllService excelProdukKualitasTinggiAllService;
 
+    // Get All data
     @GetMapping
     public CommonResponse<List<ProdukKualitasTinggi>> getAll() {
         return ResponseHelper.ok(produkKualitasTinggiService.getAll());
     }
 
+    // Get byId data
     @GetMapping("/{id}")
     public CommonResponse<ProdukKualitasTinggi> getById(@PathVariable("id") Long id) {
         return ResponseHelper.ok(produkKualitasTinggiService.getById(id));
     }
 
+    // Add data
     @PostMapping("/add")
     public CommonResponse<ProdukKualitasTinggi> add(@RequestBody ProdukKualitasTinggiDTO produkKualitasTinggiDTO) {
         return ResponseHelper.ok(produkKualitasTinggiService.add(produkKualitasTinggiDTO));
     }
 
+    // Update data
     @PutMapping("/{id}")
     public CommonResponse<ProdukKualitasTinggi> put(@PathVariable("id") Long id , @RequestBody ProdukKualitasTinggiDTO produkKualitasTinggiDTO) {
         return ResponseHelper.ok(produkKualitasTinggiService.put(produkKualitasTinggiDTO , id));
     }
 
+    // Delete data
     @DeleteMapping("/{id}")
     public CommonResponse<?> delete(@PathVariable("id") Long id) {
         return ResponseHelper.ok(produkKualitasTinggiService.delete(id));
     }
 
+    // EndPoint pagination
     @GetMapping(path = "/pagination")
     public ResponseEntity<PaginationResponse<Page<ProdukKualitasTinggi>>> getAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -81,6 +81,7 @@ public class ProdukKualitasTinggiController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // EndPoint export All
     @GetMapping("export/produkTinggi/All")
     public void exportExcelProdukTinggiAll(
             @RequestParam("tglAwal") @DateTimeFormat(pattern = "yyy-MM-dd") Date tglAwal,
@@ -89,4 +90,18 @@ public class ProdukKualitasTinggiController {
 
         excelProdukKualitasTinggiAllService.excelLaporanProdukTinggi(tglAwal, tglAkhir, response);
     }
+
+    // Update image byId
+    @PostMapping("add/image/{id}")
+    public ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestPart("image")MultipartFile image) {
+        try {
+            ProdukKualitasTinggi updateKualitasTinggi = produkKualitasTinggiService.uploadImage(id, image);
+            return ResponseEntity.ok(updateKualitasTinggi);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

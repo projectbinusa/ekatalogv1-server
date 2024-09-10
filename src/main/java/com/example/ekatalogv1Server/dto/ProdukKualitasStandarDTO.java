@@ -14,6 +14,8 @@ public class ProdukKualitasStandarDTO {
     private Long idKategoriProduk;
     private int delFlag;
 
+    // Getter and Setter
+
     public String getNamaProduk() {
         return namaProduk;
     }

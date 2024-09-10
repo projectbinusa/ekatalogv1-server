@@ -36,7 +36,6 @@ public class Pengguna extends DateConfig {
     private Date tanggal;
 
     // Getter Setter
-
     public Long getIdPengguna() {
         return IdPengguna;
     }
@@ -92,4 +91,5 @@ public class Pengguna extends DateConfig {
     public void setTanggal(Date tanggal) {
         this.tanggal = tanggal;
     }
+
 }

@@ -2,20 +2,15 @@ package com.example.ekatalogv1Server.controller;
 
 import com.example.ekatalogv1Server.config.JwtTokenUtil;
 import com.example.ekatalogv1Server.dto.*;
-import com.example.ekatalogv1Server.exception.CommonResponse;
-import com.example.ekatalogv1Server.exception.ResponseHelper;
+import com.example.ekatalogv1Server.exception.*;
 import com.example.ekatalogv1Server.model.Pengguna;
 import com.example.ekatalogv1Server.repository.PenggunaRepository;
 import com.example.ekatalogv1Server.service.auth.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -68,23 +63,28 @@ public class PenggunaController {
         }
     }
 
+    // Update data pengguna
     @PutMapping("/{id}")
     public CommonResponse<Pengguna> update(@PathVariable("id") Long id , @RequestBody PenggunaUbahDTO penggunaUbahDTO) {
         return ResponseHelper.ok(userDetailService.put(penggunaUbahDTO , id));
     }
 
+    // Delete data pengguna
     @DeleteMapping("/{id}")
     public CommonResponse<?> delete(@PathVariable("id") Long id) {
         return ResponseHelper.ok(userDetailService.delete(id));
     }
 
+    // Get all data pengguna
     @GetMapping
     public CommonResponse<List<Pengguna>> getAll() {
         return ResponseHelper.ok(userDetailService.getAll());
     }
 
+    // Get byId data pengguna
     @GetMapping("/{id}")
     public CommonResponse<Pengguna> getById(@PathVariable("id") Long id) {
         return ResponseHelper.ok(userDetailService.getById(id));
     }
+
 }
