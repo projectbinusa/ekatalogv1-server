@@ -32,6 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-# Mengabaikan file FirebaseAccountKey.json
-FirebaseAccountKey.json
-firebaseAccountKey.json
+# Mengabaikan file serviceAccountKey.json
+serviceAccountKey.json
+ServiceAccountKey.json
