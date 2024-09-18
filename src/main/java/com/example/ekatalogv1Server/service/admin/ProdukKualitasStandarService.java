@@ -21,8 +21,6 @@ import java.util.*;
 @Service
 public class ProdukKualitasStandarService {
 
-    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/e-katalogv1.appspot.com/o/%s?alt=media";
-
     @Autowired
     private ProdukKualitasStandarRepository produkKualitasStandarRepository;
 
@@ -86,24 +84,13 @@ public class ProdukKualitasStandarService {
         return produkKualitasStandarRepository.findAll(pageable);
     }
 
-    public ProdukKualitasStandar uploadImage(Long id, MultipartFile image) throws NotFoundException, IOException {
-        ProdukKualitasStandar produkKualitasStandarOptional = produkKualitasStandarRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("id tidak ditemukan"));
-        String fileUrl = uploadFoto(image, "image_" + id);
-        produkKualitasStandarOptional.setImage(fileUrl);
+//    public ProdukKualitasStandar uploadImage(Long id, MultipartFile image) throws NotFoundException, IOException {
+//        ProdukKualitasStandar produkKualitasStandarOptional = produkKualitasStandarRepository.findById(id)
+//                .orElseThrow(() -> new NotFoundException("id tidak ditemukan"));
+//        String fileUrl = uploadFoto(image, "image_" + id);
+//        produkKualitasStandarOptional.setImage(fileUrl);
+//
+//        return produkKualitasStandarRepository.save(produkKualitasStandarOptional);
+//    }
 
-        return produkKualitasStandarRepository.save(produkKualitasStandarOptional);
-    }
-
-    private String uploadFoto(MultipartFile multipartFile, String fileName) throws IOException {
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        String folderPath = "admin2/";
-        String fullPath = folderPath + timestamp + "_" + fileName;
-        BlobId blobId = BlobId.of("e-katalogv1.appspot.com", fullPath);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
-        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseAccountKey.json"));
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        storage.create(blobInfo, multipartFile.getBytes());
-        return String.format(DOWNLOAD_URL, URLEncoder.encode(fullPath, StandardCharsets.UTF_8));
-    }
 }

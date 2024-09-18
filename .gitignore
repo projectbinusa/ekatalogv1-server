@@ -30,11 +30,4 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
-
-# Mengabaikan file firebaseAccountKey.json
-firebaseAccountKey.json
-FirebaseAccountKey.json
-
-# Abaikan file environment
-.env
+.vscode
