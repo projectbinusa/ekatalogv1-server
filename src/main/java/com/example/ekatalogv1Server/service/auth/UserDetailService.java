@@ -30,6 +30,7 @@ public class UserDetailService implements UserDetailsService {
     @Autowired
     private PasswordEncoder encoder;
 
+    // login atau authentication pengguna
     public Pengguna save(PenggunaDTO user) {
         try {
             System.out.println("Checking username: " + user.getUsernamePengguna());
@@ -69,6 +70,7 @@ public class UserDetailService implements UserDetailsService {
         }
     }
 
+    // ubah pengguna
     public Pengguna put(PenggunaUbahDTO penggunaUbahDTO, Long id) {
         Pengguna pengguna = userDao.findById(id).orElseThrow(() -> new RuntimeException("pengguna not found"));
         pengguna.setNamaPengguna(penggunaUbahDTO.getNama());
@@ -80,6 +82,7 @@ public class UserDetailService implements UserDetailsService {
         return userDao.save(pengguna);
     }
 
+    // delete pengguna
     public boolean delete(Long id) {
         if (userDao.existsById(id)) {
             userDao.deleteById(id);
@@ -93,6 +96,7 @@ public class UserDetailService implements UserDetailsService {
         return userDao.findAll();
     }
 
+    // getById pengguna
     public Pengguna getById(Long id) {
         return userDao.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pengguna dengan ID " + id + " tidak ditemukan"));

@@ -23,6 +23,7 @@ public class KategoriProdukService {
         return kategoriProdukRepository.findById(id).orElseThrow(() -> new NotFoundException("Id tidak ditemukan"));
     }
 
+    // fungsi tambah data
     public KategoriProduk add(KategoriProdukDTO kategoriProdukDTO) {
         KategoriProduk kategoriProduk = new KategoriProduk();
         kategoriProduk.setNamaKategori(kategoriProdukDTO.getNamaKategori());
