@@ -39,6 +39,7 @@ public class ProdukKualitasTinggiService {
         return produkKualitasTinggiRepository.findById(id).orElseThrow(() -> new NotFoundException("Id tidak ditemukan"));
     }
 
+    // fungsi tambah data produk kualitas tinggi
     public ProdukKualitasTinggi add(ProdukKualitasTinggiDTO produkKualitasTinggiDTO) {
         ProdukKualitasTinggi produkKualitasTinggi = new ProdukKualitasTinggi();
         produkKualitasTinggi.setNamaProduk(produkKualitasTinggiDTO.getNamaProduk());
@@ -58,6 +59,7 @@ public class ProdukKualitasTinggiService {
         return produkKualitasTinggiRepository.save(produkKualitasTinggi);
     }
 
+    // fungsi edit produk kualitas tinggi
     @Transactional
     public ProdukKualitasTinggi put(ProdukKualitasTinggiDTO produkKualitasTinggiDTO, Long id) {
         ProdukKualitasTinggi produkKualitasTinggi = produkKualitasTinggiRepository.findById(id)
@@ -73,6 +75,7 @@ public class ProdukKualitasTinggiService {
         return produkKualitasTinggiRepository.save(produkKualitasTinggi);
     }
 
+    // fungsi delete produk kualitas tingi
     public String delete(Long id) {
         ProdukKualitasTinggi produk = produkKualitasTinggiRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Id tidak ditemukan"));

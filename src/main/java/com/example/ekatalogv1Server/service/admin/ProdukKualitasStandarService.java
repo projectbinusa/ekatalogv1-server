@@ -40,6 +40,7 @@ public class ProdukKualitasStandarService {
         return produkKualitasStandarRepository.findById(id).orElseThrow(() -> new NotFoundException("Id tidak ditemukan"));
     }
 
+    // fungsi tambah data produk kualitas standar
     public ProdukKualitasStandar add(ProdukKualitasStandarDTO produkKualitasStandarDTO) {
         ProdukKualitasStandar produkKualitasStandar = new ProdukKualitasStandar();
         produkKualitasStandar.setNamaProduk(produkKualitasStandarDTO.getNamaProduk());
@@ -59,6 +60,7 @@ public class ProdukKualitasStandarService {
         return produkKualitasStandarRepository.save(produkKualitasStandar);
     }
 
+    // fungsi edit produk kualitas standar
     @Transactional
     public ProdukKualitasStandar put(ProdukKualitasStandarDTO produkKualitasStandarDTO, Long id) {
         ProdukKualitasStandar produkKualitasStandar = produkKualitasStandarRepository.findById(id)
@@ -74,6 +76,7 @@ public class ProdukKualitasStandarService {
         return produkKualitasStandarRepository.save(produkKualitasStandar);
     }
 
+    // fungsi delete produk kualitas standar
     public String delete(Long id) {
         ProdukKualitasStandar produk = produkKualitasStandarRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Id tidak ditemukan"));

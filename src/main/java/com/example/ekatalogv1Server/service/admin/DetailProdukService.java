@@ -43,6 +43,7 @@ public class DetailProdukService {
         return detailProdukKualitasTinggiRepository.findById(id).orElseThrow(() -> new RuntimeException("Id tidak ditemukan"));
     }
 
+    // fungsi tambah data kualitas standar
     public DetailProdukKualitasStandar add(DetailProdukKualitasStandarDTO detailProdukKualitasStandarDTO) {
         DetailProdukKualitasStandar detailProdukKualitasStandar = new DetailProdukKualitasStandar();
         detailProdukKualitasStandar.setHargaProduk(detailProdukKualitasStandarDTO.getHargaProduk());
@@ -55,6 +56,7 @@ public class DetailProdukService {
         return detailProdukKualitasStandarRepository.save(detailProdukKualitasStandar);
     }
 
+    // fungsi tambah data kualitas tinggi
     public DetailProdukKualitasTinggi addKualitasTinggi(DetailProdukKualitasTinggiDTO detailProdukKualitasTinggiDTO) {
         DetailProdukKualitasTinggi detailProdukKualitasTinggi = new DetailProdukKualitasTinggi();
         detailProdukKualitasTinggi.setHargaProduk(detailProdukKualitasTinggiDTO.getHargaProduk());
@@ -67,6 +69,7 @@ public class DetailProdukService {
         return detailProdukKualitasTinggiRepository.save(detailProdukKualitasTinggi);
     }
 
+    // fungsi edit kualitas standar
     @Transactional
     public DetailProdukKualitasStandar put(DetailProdukKualitasStandarDTO detailProdukKualitasStandarDTO, Long id) {
         DetailProdukKualitasStandar detailProdukKualitasStandar = detailProdukKualitasStandarRepository.findById(id)
@@ -81,6 +84,7 @@ public class DetailProdukService {
         return detailProdukKualitasStandarRepository.save(detailProdukKualitasStandar);
     }
 
+    // fungsi edit kualitas tinggi
     @Transactional
     public DetailProdukKualitasTinggi putKualitasTinggi(DetailProdukKualitasTinggiDTO detailProdukKualitasTinggiDTO, Long id) {
         DetailProdukKualitasTinggi detailProdukKualitasTinggi = detailProdukKualitasTinggiRepository.findById(id)
@@ -95,6 +99,7 @@ public class DetailProdukService {
         return detailProdukKualitasTinggiRepository.save(detailProdukKualitasTinggi);
     }
 
+    // fungsi delete kualitas standar
     public String deleteKualitasStandar(Long id) {
         DetailProdukKualitasStandar detailProdukKualitasStandar = detailProdukKualitasStandarRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Id detail " + id + " not found "));
@@ -103,6 +108,7 @@ public class DetailProdukService {
         return "Id dengan " + id + " berhasil dihapus.";
     }
 
+    // fungsi delete kualitas tinggi
     public String deleteKualitasTinggi(Long id) {
         DetailProdukKualitasTinggi detailProdukKualitasTinggi = detailProdukKualitasTinggiRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Id detail " + id + " not found"));
