@@ -16,10 +16,12 @@ public class ListProdukService {
     @Autowired
     private ProdukKualitasTinggiRepository produkKualitasTinggiRepository;
 
+    // getBy nama kategori
     public List<ProdukKualitasStandar> getBarangByKategoriNama(String namaKategori) {
         return produkKualitasStandarRepository.findBarangByKategoriNama(namaKategori);
     }
 
+    // getBy nama kategori
     public List<ProdukKualitasTinggi> getProdukByKategoriNama(String namaKategori) {
         return produkKualitasTinggiRepository.findProdukByKategoriNama(namaKategori);
     }
