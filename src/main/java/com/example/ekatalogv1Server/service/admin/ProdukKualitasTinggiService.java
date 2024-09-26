@@ -98,6 +98,7 @@ public class ProdukKualitasTinggiService {
         return produkKualitasTinggiRepository.save(produkKualitasTinggiOptional);
     }
 
+    // endpoint firebase account dan storage firebase
     private String uploadFoto(MultipartFile multipartFile, String fileName) throws IOException {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String folderPath = "KTinggi/";
