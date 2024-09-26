@@ -34,5 +34,4 @@ public class KategoriProdukController {
     public CommonResponse<KategoriProduk> add(@RequestBody KategoriProdukDTO kategoriProdukDTO) {
         return ResponseHelper.ok(kategoriProdukService.add(kategoriProdukDTO));
     }
-
 }

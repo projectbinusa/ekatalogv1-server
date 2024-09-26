@@ -91,5 +91,4 @@ public class Pengguna extends DateConfig {
     public void setTanggal(Date tanggal) {
         this.tanggal = tanggal;
     }
-
 }

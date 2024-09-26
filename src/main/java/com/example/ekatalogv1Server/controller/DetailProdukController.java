@@ -76,5 +76,4 @@ public class DetailProdukController {
     public CommonResponse<?> deleteKualitasTinggi(@PathVariable("id") Long id) {
         return ResponseHelper.ok(detailProdukService.deleteKualitasTinggi(id));
     }
-
 }
