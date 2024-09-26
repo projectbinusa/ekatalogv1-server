@@ -85,6 +85,7 @@ public class ProdukKualitasStandarService {
         return "Produk dengan Id " + id + " berhasil dihapus.";
     }
 
+    // fungsi getAll data produk kualitas standar
     public Page<ProdukKualitasStandar> getAll(Pageable pageable) {
         return produkKualitasStandarRepository.findAll(pageable);
     }
