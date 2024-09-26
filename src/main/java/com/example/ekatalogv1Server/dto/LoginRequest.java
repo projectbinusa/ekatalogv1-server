@@ -1,22 +1,8 @@
 package com.example.ekatalogv1Server.dto;
 
-import java.io.Serializable;
-
-public class JwtRequest implements Serializable {
-    private static final long serialVersionUID = 5926468583005150707L;
-
+public class LoginRequest {
     private String username;
     private String password;
-
-    // Konstruktor default
-    public JwtRequest() {
-    }
-
-    // Konstruktor dengan parameter
-    public JwtRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 
     public String getUsername() {
         return username;
