@@ -8,7 +8,6 @@ public class Ekatalogv1ServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Ekatalogv1ServerApplication.class, args);
-		System.out.println("Selesai");
 	}
 
 }

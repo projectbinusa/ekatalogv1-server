@@ -1,5 +1,8 @@
 package com.example.ekatalogv1Server.config;
 
+import com.example.ekatalogv1Server.security.AccessDenied;
+import com.example.ekatalogv1Server.security.AuthEntryPointJwt;
+import com.example.ekatalogv1Server.security.AuthTokenFilter;
 import com.example.ekatalogv1Server.service.auth.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,19 +22,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    UserDetailService adminDetailService;
 
     @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private AccessDenied accessDeniedHandler;
 
     @Autowired
-    private UserDetailService userDetailService;
+    AuthEntryPointJwt unauthorizedHandler;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
 
-    @Autowired
+    @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(adminDetailService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -54,25 +61,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             // API controller
+            "/api/pengguna/add",
             "/api/pengguna/login",
     };
 
     private static final String[] AUTH_ADMIN = {
-            "/api/pengguna/login/**"
+            "/api/pengguna/**"
     };
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers(AUTH_ADMIN).hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest().authenticated();
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

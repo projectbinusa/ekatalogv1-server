@@ -21,7 +21,7 @@ import java.util.*;
 @Service
 public class ProdukKualitasStandarService {
 
-    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogapp-bfa00.appspot.com/o/%s?alt=media";
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogapp-ef60b.appspot.com/o/%s?alt=media";
 
     @Autowired
     private ProdukKualitasStandarRepository produkKualitasStandarRepository;
@@ -85,6 +85,7 @@ public class ProdukKualitasStandarService {
         return "Produk dengan Id " + id + " berhasil dihapus.";
     }
 
+    // fungsi getAll data produk kualitas standar
     public Page<ProdukKualitasStandar> getAll(Pageable pageable) {
         return produkKualitasStandarRepository.findAll(pageable);
     }
@@ -102,7 +103,7 @@ public class ProdukKualitasStandarService {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String folderPath = "KStandar/";
         String fullPath = folderPath + timestamp + "_" + fileName;
-        BlobId blobId = BlobId.of("ekatalogapp-bfa00.appspot.com", fullPath);
+        BlobId blobId = BlobId.of("ekatalogapp-ef60b.appspot.com", fullPath);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseEkatalog.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();

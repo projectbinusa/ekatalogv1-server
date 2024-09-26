@@ -41,26 +41,23 @@ public class SwaggerConfig {
                 "1.0.0",
                 "",
                 "",
-                "demo",
+                "",
                 "-"
         );
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("apiKey", "Authorization", "header");
+        return new ApiKey("JWT", "auth-tgh", "header");
     }
 
     private SecurityContext securityContext() {
-        return SecurityContext.builder().securityReferences(defaultAuth())
-                .forPaths(PathSelectors.any()).build();
+        return SecurityContext.builder().securityReferences(defaultAuth()).build();
     }
 
     private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope(
-                "global", "accessEverything");
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("apiKey",
-                authorizationScopes));
+        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
     }
 }

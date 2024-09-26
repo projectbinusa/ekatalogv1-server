@@ -103,5 +103,4 @@ public class ProdukKualitasStandarController {
             throw new RuntimeException(e);
         }
     }
-
 }

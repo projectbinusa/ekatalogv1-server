@@ -21,7 +21,7 @@ import java.util.*;
 @Service
 public class ProdukKualitasTinggiService {
 
-    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogapp-bfa00.appspot.com/o/%s?alt=media";
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogapp-ef60b.appspot.com/o/%s?alt=media";
     @Autowired
     private ProdukKualitasTinggiRepository produkKualitasTinggiRepository;
 
@@ -84,6 +84,7 @@ public class ProdukKualitasTinggiService {
         return "Produk dengan Id " + id + " berhasil dihapus.";
     }
 
+    // fungsi getAll data produk kualitas tinggi
     public Page<ProdukKualitasTinggi> getAll(Pageable pageable) {
         return produkKualitasTinggiRepository.findAll(pageable);
     }
@@ -97,11 +98,12 @@ public class ProdukKualitasTinggiService {
         return produkKualitasTinggiRepository.save(produkKualitasTinggiOptional);
     }
 
+    // endpoint firebase account dan storage firebase
     private String uploadFoto(MultipartFile multipartFile, String fileName) throws IOException {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String folderPath = "KTinggi/";
         String fullPath = folderPath + timestamp + "_" + fileName;
-        BlobId blobId = BlobId.of("ekatalogapp-bfa00.appspot.com", fullPath);
+        BlobId blobId = BlobId.of("ekatalogapp-ef60b.appspot.com", fullPath);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseEkatalog.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();

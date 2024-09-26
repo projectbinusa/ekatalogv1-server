@@ -48,5 +48,4 @@ public class KategoriProduk extends DateConfig {
 //    public void setTanggal(Date tanggal) {
 //        this.tanggal = tanggal;
 //    }
-
 }

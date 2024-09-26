@@ -92,5 +92,4 @@ public class DetailProdukKualitasStandar extends DateConfig {
     public void setStokProduk(int stokProduk) {
         this.stokProduk = stokProduk;
     }
-
 }
