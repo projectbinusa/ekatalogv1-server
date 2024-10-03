@@ -1,5 +1,7 @@
 package com.example.ekatalogv1Server.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class ProdukKualitasTinggiDTO {
@@ -8,6 +10,7 @@ public class ProdukKualitasTinggiDTO {
     private String cashKredit;
     private String status;
     private String layanan;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date tanggal;
     private String jenisProyek;
     private Long idDetailProdukTinggi;

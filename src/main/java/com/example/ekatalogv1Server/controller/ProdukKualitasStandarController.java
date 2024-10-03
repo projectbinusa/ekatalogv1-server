@@ -10,7 +10,6 @@ import org.springframework.data.domain.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -92,15 +91,15 @@ public class ProdukKualitasStandarController {
     }
 
     // Update image byId
-    @PostMapping("add/image/{id}")
-    public ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestPart("image")MultipartFile image) {
-        try {
-            ProdukKualitasStandar updateKualitasStandar = produkKualitasStandarService.uploadImage(id, image);
-            return ResponseEntity.ok(updateKualitasStandar);
-        } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @PostMapping("add/image/{id}")
+//    public ResponseEntity<?> uploadImage(@PathVariable("id") Long id, @RequestPart("image")MultipartFile image) {
+//        try {
+//            ProdukKualitasStandar updateKualitasStandar = produkKualitasStandarService.uploadImage(id, image);
+//            return ResponseEntity.ok(updateKualitasStandar);
+//        } catch (NotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }
