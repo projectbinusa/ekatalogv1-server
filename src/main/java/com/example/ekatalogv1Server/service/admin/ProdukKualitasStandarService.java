@@ -6,6 +6,12 @@ import com.example.ekatalogv1Server.model.*;
 import com.example.ekatalogv1Server.repository.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.*;
@@ -16,14 +22,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
 public class ProdukKualitasStandarService {
 
-//    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-server-774da.appspot.com/o/%s?alt=media";
-//    private static final String BASE_URL = "https://s3.lynk2.co/pos/admin";
-//    private static final long MAX_FILE_SIZE = 2 * 1024 * 1024;
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3d49b.appspot.com/o/%s?alt=media";
 
     @Autowired
     private ProdukKualitasStandarRepository produkKualitasStandarRepository;
@@ -90,50 +96,23 @@ public class ProdukKualitasStandarService {
         return produkKualitasStandarRepository.findAll(pageable);
     }
 
-//    private String uploadFoto(MultipartFile multipartFile) throws IOException {
-//        if (multipartFile.getSize() > MAX_FILE_SIZE) {
-//            throw new IOException("File sixe exceeds the limit of 2MB");
-//        }
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-//        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-//        body.add("file", multipartFile.getResource());
-//
-//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-//        ResponseEntity<String> response = restTemplate.exchange(BASE_URL, HttpMethod.POST, requestEntity, String.class);
-//        String fileUrl = extractFileUrlFromResponse(response.getBody());
-//        return fileUrl;
-//    }
+    public ProdukKualitasStandar uploadImage(Long id , MultipartFile file) throws NotFoundException, IOException {
+        ProdukKualitasStandar KstandarOptional = produkKualitasStandarRepository.findById(id).orElseThrow(() -> new RuntimeException("Id tidak ditemukan"));
+        String fileUrl = uploadFoto(file, "Kstandar_" + id);
+        KstandarOptional.setFoto(fileUrl);
 
-//    private String extractFileUrlFromResponse(String responseBody) throws IOException {
-//        ObjectMapper mapper = new ObjectMapper();
-//        JsonNode jsonResponse = mapper.readTree(responseBody);
-//        JsonNode dataNode = jsonResponse.path("data");
-//        String urlFile = dataNode.path("url_file").asText();
-//
-//        return urlFile;
-//    }
+        return produkKualitasStandarRepository.save(KstandarOptional);
+    }
 
-//    public ProdukKualitasStandar uploadImage(Long id, MultipartFile image) throws NotFoundException, IOException {
-//        ProdukKualitasStandar produkKualitasStandarOptional = produkKualitasStandarRepository.findById(id)
-//                .orElseThrow(() -> new NotFoundException("id tidak ditemukan"));
-//        String fileUrl = uploadFoto(image, "image_" + id);
-//        produkKualitasStandarOptional.setImage(fileUrl);
-//
-//        return produkKualitasStandarRepository.save(produkKualitasStandarOptional);
-//    }
-//    private String uploadFoto(MultipartFile multipartFile, String fileName) throws IOException {
-//        String timestamp = String.valueOf(System.currentTimeMillis());
-//        String folderPath = "KStandar/";
-//        String fullPath = folderPath + timestamp + "_" + fileName;
-//        BlobId blobId = BlobId.of("ekatalogv1-server-774da.appspot.com", fullPath);
-//        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
-//        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseEkatalog.json"));
-//        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-//        storage.create(blobInfo, multipartFile.getBytes());
-//        return String.format(DOWNLOAD_URL, URLEncoder.encode(fullPath, StandardCharsets.UTF_8));
-//    }
-
+    private String uploadFoto(MultipartFile multipartFile, String fileName) throws IOException {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String folderPath = "KStandar/";
+        String fullPath = folderPath + timestamp + "_" + fileName;
+        BlobId blobId = BlobId.of("ekatalogv1-3d49b.appspot.com", fullPath);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseAccount.json"));
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        storage.create(blobInfo, multipartFile.getBytes());
+        return String.format(DOWNLOAD_URL, URLEncoder.encode(fullPath, StandardCharsets.UTF_8));
+    }
 }

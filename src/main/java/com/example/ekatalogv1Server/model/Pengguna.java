@@ -35,6 +35,10 @@ public class Pengguna extends DateConfig {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "Asia/Jakarta")
     private Date tanggal;
 
+    @Lob
+    @Column(name = "foto")
+    private String foto;
+
     // Getter Setter
     public Long getIdPengguna() {
         return IdPengguna;
@@ -90,5 +94,13 @@ public class Pengguna extends DateConfig {
 
     public void setTanggal(Date tanggal) {
         this.tanggal = tanggal;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

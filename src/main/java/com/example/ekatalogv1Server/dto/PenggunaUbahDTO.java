@@ -2,24 +2,24 @@ package com.example.ekatalogv1Server.dto;
 
 public class PenggunaUbahDTO {
 
-    private String nama;
-    private String password;
+    private String namaPengguna;
+    private String usernamePengguna;
 
     // Getter and Setter
 
-    public String getNama() {
-        return nama;
+    public String getNamaPengguna() {
+        return namaPengguna;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setNamaPengguna(String namaPengguna) {
+        this.namaPengguna = namaPengguna;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUsernamePengguna() {
+        return usernamePengguna;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUsernamePengguna(String usernamePengguna) {
+        this.usernamePengguna = usernamePengguna;
     }
 }

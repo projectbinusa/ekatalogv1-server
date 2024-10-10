@@ -32,4 +32,12 @@ public class ResponseHelper {
         response.setPagination(pagination);
         return response;
     }
+
+    public static <T> ResponseEntity<CommonResponse<T>> badRequest(String errorMessage) {
+        CommonResponse<T> response = new CommonResponse<>();
+        response.setStatus("400 BAD REQUEST");
+        response.setCode(400);
+        response.setMessage(errorMessage);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
