@@ -2,18 +2,29 @@
 package com.example.ekatalogv1Server.service.auth;
 
 import com.example.ekatalogv1Server.dto.*;
+import com.example.ekatalogv1Server.exception.NotFoundException;
 import com.example.ekatalogv1Server.model.Pengguna;
 import com.example.ekatalogv1Server.repository.PenggunaRepository;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
 public class UserDetailService implements UserDetailsService {
+
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3d49b.appspot.com/o/%s?alt=media";
 
     @Autowired
     private PenggunaRepository userDao;
@@ -67,11 +78,8 @@ public class UserDetailService implements UserDetailsService {
     // ubah pengguna
     public Pengguna put(PenggunaUbahDTO penggunaUbahDTO, Long id) {
         Pengguna pengguna = userDao.findById(id).orElseThrow(() -> new RuntimeException("pengguna not found"));
-        pengguna.setNamaPengguna(penggunaUbahDTO.getNama());
-        if (penggunaUbahDTO.getPassword() != null && !penggunaUbahDTO.getPassword().isEmpty()) {
-            String encodedPassword = encoder.encode(penggunaUbahDTO.getPassword());
-            pengguna.setPasswordPengguna(encodedPassword);
-        }
+        pengguna.setNamaPengguna(penggunaUbahDTO.getNamaPengguna());
+        pengguna.setUsernamePengguna(penggunaUbahDTO.getUsernamePengguna());
 
         return userDao.save(pengguna);
     }
@@ -94,5 +102,40 @@ public class UserDetailService implements UserDetailsService {
     public Pengguna getById(Long id) {
         return userDao.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pengguna dengan ID " + id + " tidak ditemukan"));
+    }
+
+    public Pengguna uploadImage(Long id , MultipartFile file) throws NotFoundException, IOException {
+        Pengguna penggunaOptional = userDao.findById(id).orElseThrow(() -> new RuntimeException("Id tidak ditemukan"));
+        String fileUrl = uploadFoto(file , "Pengguna_" + id);
+        penggunaOptional.setFoto(fileUrl);
+
+        return userDao.save(penggunaOptional);
+    }
+
+    private String uploadFoto(MultipartFile multipartFile, String fileName) throws IOException {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String folderPath = "pengguna/";
+        String fullPath = folderPath + timestamp + "_" + fileName;
+        BlobId blobId = BlobId.of("ekatalogv1-3d49b.appspot.com", fullPath);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseAccount.json"));
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        storage.create(blobInfo, multipartFile.getBytes());
+        return String.format(DOWNLOAD_URL, URLEncoder.encode(fullPath, StandardCharsets.UTF_8));
+    }
+
+    public String updatePassword(Long id, PasswordChangeRequestDTO passwordChangeRequestDTO) {
+        Pengguna pengguna = userDao.findById(id).orElseThrow(() -> new RuntimeException("Penggguna tidak ditemukan"));
+
+        if (!bcryptEncoder.matches(passwordChangeRequestDTO.getPasswordLama(), pengguna.getPasswordPengguna())) {
+            return "Password lama tidak sesuai";
+        }
+        if (!passwordChangeRequestDTO.getPasswordBaru().equals(passwordChangeRequestDTO.getKonfirmasiPassword())) {
+            return "Konfirmasi password tidak cocok";
+        }
+        pengguna.setPasswordPengguna(bcryptEncoder.encode(passwordChangeRequestDTO.getPasswordBaru()));
+        userDao.save(pengguna);
+
+        return "Password berhasil diubah";
     }
 }
