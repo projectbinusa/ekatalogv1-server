@@ -29,7 +29,7 @@ import java.util.*;
 @Service
 public class ProdukKualitasTinggiService {
 
-    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3d49b.appspot.com/o/%s?alt=media";
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3a13b.appspot.com/o/%s?alt=media";
 
     @Autowired
     private ProdukKualitasTinggiRepository produkKualitasTinggiRepository;
@@ -108,8 +108,8 @@ public class ProdukKualitasTinggiService {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String folderPath = "Ktinggi/";
         String fullPath = folderPath + timestamp + "_" + fileName;
-        BlobId blobId = BlobId.of("ekatalogv1-3d49b.appspot.com", fullPath);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        BlobId blobId = BlobId.of("ekatalogv1-3a13b.appspot.com", fullPath);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseAccount.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, multipartFile.getBytes());
