@@ -8,7 +8,8 @@ import com.example.ekatalogv1Server.repository.PenggunaRepository;
 import com.example.ekatalogv1Server.service.auth.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-    import org.springframework.security.authentication.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -117,7 +118,8 @@ public class PenggunaController {
         } catch (IOException e) {
             return ResponseHelper.error("File update failed", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
         } catch (Exception e) {
-            return ResponseHelper.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
+            e.printStackTrace();
+            return ResponseHelper.error("An unexpected error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR).getBody();
         }
     }
 

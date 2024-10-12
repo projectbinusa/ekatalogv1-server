@@ -24,7 +24,7 @@ import java.util.*;
 @Service
 public class UserDetailService implements UserDetailsService {
 
-    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3d49b.appspot.com/o/%s?alt=media";
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3a13b.appspot.com/o/%s?alt=media";
 
     @Autowired
     private PenggunaRepository userDao;
@@ -106,6 +106,8 @@ public class UserDetailService implements UserDetailsService {
 
     public Pengguna uploadImage(Long id , MultipartFile file) throws NotFoundException, IOException {
         Pengguna penggunaOptional = userDao.findById(id).orElseThrow(() -> new RuntimeException("Id tidak ditemukan"));
+        System.out.println("Uploading file: " + file.getOriginalFilename());
+        System.out.println("File size: " + file.getSize() + " bytes");
         String fileUrl = uploadFoto(file , "Pengguna_" + id);
         penggunaOptional.setFoto(fileUrl);
 
@@ -116,8 +118,8 @@ public class UserDetailService implements UserDetailsService {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String folderPath = "pengguna/";
         String fullPath = folderPath + timestamp + "_" + fileName;
-        BlobId blobId = BlobId.of("ekatalogv1-3d49b.appspot.com", fullPath);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        BlobId blobId = BlobId.of("ekatalogv1-3a13b.appspot.com", fullPath);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseAccount.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, multipartFile.getBytes());

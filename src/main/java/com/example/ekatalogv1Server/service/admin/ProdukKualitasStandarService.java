@@ -29,7 +29,7 @@ import java.util.*;
 @Service
 public class ProdukKualitasStandarService {
 
-    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3d49b.appspot.com/o/%s?alt=media";
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3a13b.appspot.com/o/%s?alt=media";
 
     @Autowired
     private ProdukKualitasStandarRepository produkKualitasStandarRepository;
@@ -97,7 +97,8 @@ public class ProdukKualitasStandarService {
     }
 
     public ProdukKualitasStandar uploadImage(Long id , MultipartFile file) throws NotFoundException, IOException {
-        ProdukKualitasStandar KstandarOptional = produkKualitasStandarRepository.findById(id).orElseThrow(() -> new RuntimeException("Id tidak ditemukan"));
+        ProdukKualitasStandar KstandarOptional = produkKualitasStandarRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Id tidak ditemukan"));
         String fileUrl = uploadFoto(file, "Kstandar_" + id);
         KstandarOptional.setFoto(fileUrl);
 
@@ -108,8 +109,8 @@ public class ProdukKualitasStandarService {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String folderPath = "KStandar/";
         String fullPath = folderPath + timestamp + "_" + fileName;
-        BlobId blobId = BlobId.of("ekatalogv1-3d49b.appspot.com", fullPath);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        BlobId blobId = BlobId.of("ekatalogv1-3a13b.appspot.com", fullPath);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseAccount.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, multipartFile.getBytes());
