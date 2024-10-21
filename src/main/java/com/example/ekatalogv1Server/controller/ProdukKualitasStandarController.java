@@ -20,6 +20,7 @@ import java.util.*;
 @RequestMapping("/api/kualitas_standar")
 @CrossOrigin(origins = "*")
 public class ProdukKualitasStandarController {
+    private final String uploadDirectory = "uploads/";
 
     @Autowired
     private ProdukKualitasStandarService produkKualitasStandarService;

@@ -8,7 +8,6 @@ import com.example.ekatalogv1Server.repository.PenggunaRepository;
 import com.example.ekatalogv1Server.service.auth.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
 
 @RestController
 @RequestMapping("api/pengguna")
@@ -94,6 +92,23 @@ public class PenggunaController {
         }
     }
 
+    @PutMapping("/update_password")
+    public CommonResponse<?> ubahPassword(@RequestBody PasswordChangeRequestDTO passwordChangeRequestDTO, Authentication authentication) {
+        String username = authentication.getName();
+        Optional<Pengguna> optionalUser = userDao.findByUsername(username);
+
+        if (optionalUser.isEmpty()) {
+            return ResponseHelper.badRequest("User not found with username: " + username).getBody();
+        }
+        Long id = optionalUser.get().getIdPengguna();
+        String result = userDetailService.updatePassword(id, passwordChangeRequestDTO);
+        if (result.equals("Password berhasil diubah")) {
+            return ResponseHelper.ok(result);
+        } else {
+            return ResponseHelper.badRequest(result).getBody();
+        }
+    }
+
     @PostMapping("/upload_image/{id}")
     public CommonResponse<?> uploadImage(@PathVariable("id") Long id, @RequestPart("foto") MultipartFile file) {
         try {
@@ -118,25 +133,7 @@ public class PenggunaController {
         } catch (IOException e) {
             return ResponseHelper.error("File update failed", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseHelper.error("An unexpected error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR).getBody();
-        }
-    }
-
-    @PutMapping("/update_password")
-    public CommonResponse<?> ubahPassword(@RequestBody PasswordChangeRequestDTO passwordChangeRequestDTO, Authentication authentication) {
-        String username = authentication.getName();
-        Optional<Pengguna> optionalUser = userDao.findByUsername(username);
-
-        if (optionalUser.isEmpty()) {
-            return ResponseHelper.badRequest("User not found with username: " + username).getBody();
-        }
-        Long id = optionalUser.get().getIdPengguna();
-        String result = userDetailService.updatePassword(id, passwordChangeRequestDTO);
-        if (result.equals("Password berhasil diubah")) {
-            return ResponseHelper.ok(result);
-        } else {
-            return ResponseHelper.badRequest(result).getBody();
         }
     }
 }

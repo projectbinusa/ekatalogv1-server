@@ -4,21 +4,13 @@ import com.example.ekatalogv1Server.dto.ProdukKualitasTinggiDTO;
 import com.example.ekatalogv1Server.exception.NotFoundException;
 import com.example.ekatalogv1Server.model.*;
 import com.example.ekatalogv1Server.repository.*;
-import com.fasterxml.jackson.databind.*;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.*;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -28,8 +20,7 @@ import java.util.*;
 
 @Service
 public class ProdukKualitasTinggiService {
-
-    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3a13b.appspot.com/o/%s?alt=media";
+    private final String uploadDirectory = "uploads/";
 
     @Autowired
     private ProdukKualitasTinggiRepository produkKualitasTinggiRepository;
@@ -39,6 +30,8 @@ public class ProdukKualitasTinggiService {
 
     @Autowired
     private DetailProdukKualitasTinggiRepository detailProdukKualitasTinggiRepository;
+
+    static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ekatalogv1-3a13b.appspot.com/o/%s?alt=media";
 
     public List<ProdukKualitasTinggi> getAll() {
         return produkKualitasTinggiRepository.findAll();
@@ -110,9 +103,15 @@ public class ProdukKualitasTinggiService {
         String fullPath = folderPath + timestamp + "_" + fileName;
         BlobId blobId = BlobId.of("ekatalogv1-3a13b.appspot.com", fullPath);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(multipartFile.getContentType()).build();
-        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/firebaseAccount.json"));
+        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("firebaseAccount.json");
+        if (serviceAccount == null) {
+            throw new FileNotFoundException("Firebase service account file not found");
+        }
+        Credentials credentials = GoogleCredentials.fromStream(serviceAccount);
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        System.out.println("Menyimpan gambar ke Firebase dengan path: " + fullPath);
         storage.create(blobInfo, multipartFile.getBytes());
+        System.out.println("Upload sukses!");
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fullPath, StandardCharsets.UTF_8));
     }
 }
