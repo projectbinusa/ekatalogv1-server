@@ -20,7 +20,7 @@ import java.util.*;
 @RequestMapping("/api/kualitas_standar")
 @CrossOrigin(origins = "*")
 public class ProdukKualitasStandarController {
-    private final String uploadDirectory = "uploads/";
+//    private final String uploadDirectory = "uploads/";
 
     @Autowired
     private ProdukKualitasStandarService produkKualitasStandarService;
@@ -90,19 +90,5 @@ public class ProdukKualitasStandarController {
             HttpServletResponse response) throws IOException {
 
         excelProdukKualitasStandarAllService.excelLaporanProdukStandar(tglAwal, tglAkhir, response);
-    }
-
-    @PostMapping("upload_image/{id}")
-    public CommonResponse<?> uploadImage(@PathVariable("id") Long id, @RequestPart("foto")MultipartFile file) {
-        try {
-            ProdukKualitasStandar uploadImage = produkKualitasStandarService.uploadImage(id, file);
-            return ResponseHelper.ok(uploadImage);
-        } catch (NotFoundException e) {
-            return ResponseHelper.error("Produk kualitas standar not found", HttpStatus.NOT_FOUND).getBody();
-        } catch (IOException e) {
-            return ResponseHelper.error("File upload failed", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
-        } catch (Exception e) {
-            return ResponseHelper.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
-        }
     }
 }

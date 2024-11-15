@@ -108,32 +108,4 @@ public class PenggunaController {
             return ResponseHelper.badRequest(result).getBody();
         }
     }
-
-    @PostMapping("/upload_image/{id}")
-    public CommonResponse<?> uploadImage(@PathVariable("id") Long id, @RequestPart("foto") MultipartFile file) {
-        try {
-            Pengguna uploadImage = userDetailService.uploadImage(id, file);
-            return ResponseHelper.ok(uploadImage);
-        } catch (NotFoundException e) {
-            return ResponseHelper.error("User not found", HttpStatus.NOT_FOUND).getBody();
-        } catch (IOException e) {
-            return ResponseHelper.error("File upload failed", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
-        } catch (Exception e) {
-            return ResponseHelper.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
-        }
-    }
-
-    @PutMapping("/update_image/{id}")
-    public CommonResponse<?> updateImage(@PathVariable("id") Long id, @RequestPart("foto") MultipartFile file) {
-        try {
-            Pengguna updateImage = userDetailService.uploadImage(id, file);
-            return ResponseHelper.ok(updateImage);
-        } catch (NotFoundException e) {
-            return ResponseHelper.error("User not found", HttpStatus.NOT_FOUND).getBody();
-        } catch (IOException e) {
-            return ResponseHelper.error("File update failed", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
-        } catch (Exception e) {
-            return ResponseHelper.error("An unexpected error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR).getBody();
-        }
-    }
 }

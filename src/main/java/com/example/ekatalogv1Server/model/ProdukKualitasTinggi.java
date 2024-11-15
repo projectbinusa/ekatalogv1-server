@@ -37,10 +37,6 @@ public class ProdukKualitasTinggi extends DateConfig {
     @Column(name = "jenis_proyek", nullable = false, length = 255)
     private String jenisProyek;
 
-    @Lob
-    @Column(name = "foto")
-    private String foto;
-
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "id_detail_produk_tinggi", updatable = false)
     private DetailProdukKualitasTinggi detailProdukKualitasTinggi;
@@ -113,14 +109,6 @@ public class ProdukKualitasTinggi extends DateConfig {
 
     public void setJenisProyek(String jenisProyek) {
         this.jenisProyek = jenisProyek;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
     }
 
     public DetailProdukKualitasTinggi getDetailProdukKualitasTinggi() {
