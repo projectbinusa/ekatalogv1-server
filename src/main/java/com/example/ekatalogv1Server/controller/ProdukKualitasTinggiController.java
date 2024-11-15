@@ -90,19 +90,4 @@ public class ProdukKualitasTinggiController {
 
         excelProdukKualitasTinggiAllService.excelLaporanProdukTinggi(tglAwal, tglAkhir, response);
     }
-
-    @PostMapping("upload_image/{id}")
-    public CommonResponse<?> uploadImage(@PathVariable("id") Long id, @RequestPart("foto")MultipartFile file) {
-        try {
-            ProdukKualitasTinggi uploadImage = produkKualitasTinggiService.uploadImage(id, file);
-            return ResponseHelper.ok(uploadImage);
-        } catch (NotFoundException e) {
-            return ResponseHelper.error("Produk kualitas standar not found", HttpStatus.NOT_FOUND).getBody();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseHelper.error("File upload failed", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
-        } catch (Exception e) {
-            return ResponseHelper.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR).getBody();
-        }
-    }
 }
